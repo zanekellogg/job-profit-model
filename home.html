@@ -183,7 +183,8 @@
             // *** Helper Functions
             function transformData(data) {
                 return data.map(entry => {
-                    const jobDate = Date.parse(entry["Job Date"]);
+                    const jobDateUtc = Date.parse(entry["Job Date"]);
+                    const jobDate = new Date(jobDateUtc);
                     const description = entry.Description;
                     const labor = parseFloat(entry["Labor"] || 0);
                     const materials = parseFloat(entry["Materials"] || 0);
@@ -207,6 +208,13 @@
                     var variancePercent = variance / originalEstimate;
                     variancePercent = parseFloat(variancePercent.toFixed(4));
 
+                    // Month & Year
+                    const monthNumber = jobDate.getMonth() + 1;
+                    const year = jobDate.getFullYear();
+                    const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    const monthLabel = monthLabels[jobDate.getMonth()];
+                    const dateLabel = monthLabel + "-" + year;
+
                     return {
                         jobDate,
                         description,
@@ -218,7 +226,11 @@
                         profit,
                         profitPercent,
                         variance,
-                        variancePercent
+                        variancePercent,
+                        monthNumber,
+                        year,
+                        monthLabel,
+                        dateLabel
                     }
                 });
             }
@@ -252,7 +264,7 @@
                 })
             ).subscribe({
                 next: transformedData => {
-                    showData(transformData);
+                    showData(transformedData);
                 },
                 error: err => console.error("Error: ", err),
                 complete: () => console.log("Processing Complete")
