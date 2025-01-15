@@ -9,75 +9,37 @@
         <input type="file" id="file" title="File Input" accept=".csv" />
         <pre id="output"></pre>
         <script>
-            (() => {
-                // Imports
-                const { fromEvent, Subject } = rxjs;
-                const { switchMap, map, tap } = rxjs.operators;
+            // Imports
+            const { fromEvent } = rxjs;
 
-                // Initialization
-                const fileInput = document.getElementById("file");
-                const output = document.getElementById('output');
+            // Initialization
+            const fileInput = document.getElementById("file");
+            const output = document.getElementById('output');
 
-                // Event Streams
-                const fileInputChange$ = fromEvent(fileInput, 'change');
+            // Event Streams
+            const fileInputChange$ = fromEvent(fileInput, 'change');
 
-                // Transformations
+            // Transformations
 
-                // Side Effects
+            // Side Effects
+            fileInputChange$.subscribe(event => {
+                const file = event.target.files[0];
 
-                // File input changed
-                fileInputChange$
-                    .tap(e => console.log(e))
-                    .pipe(
-                    // Step 1: Read the file
-                    switchMap(event => {
-                        const file = event.target.files[0];
-                        if (!file) {
-                            return rxjs.EMPTY;
+                if (file) {
+                    Papa.parse(file, {
+                        header: true, // Convert rows into objects using the headers as keys
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            console.log('Parsed Results:', results.data);
+                            output.textContent = JSON.stringify(results.data, null, 2); // Display the parsed object
+                        },
+                        error: function(error) {
+                            console.error('Error parsing CSV:', error);
                         }
-
-                        return new Promise((resolve, reject) => {
-                            Papa.parse(file, {
-                                header: true, // Convert rows to objects using the headers as keys
-                                skipEmptyLines: true,
-                                complete: (results) => resolve(results.data),
-                                error: (error) => reject(error)
-                            });                            
-                        })
-                    }),
-                    // Step 2: Transform
-                    map(parsedData => {
-                        return parsedData; // TODO - transformation logic here
-                    })  
-                ).subscribe({
-                    next: transformedData => {
-                        console.log("Data: " + transformedData);
-                        output.textContent = JSON.stringify(transformedData, null, 2);
-                    },
-                    error: err => console.error("Error: ", err),
-                    complete: () => console.log("Processing Complete")
-                });
-                
-                
-                // .subscribe(event => {
-                //     const file = event.target.files[0];
-
-                //     if (file) {
-                //         Papa.parse(file, {
-                //             header: true, // Convert rows into objects using the headers as keys
-                //             skipEmptyLines: true,
-                //             complete: function(results) {
-                //                 console.log('Parsed Results:', results.data);
-                //                 output.textContent = JSON.stringify(results.data, null, 2); // Display the parsed object
-                //             },
-                //             error: function(error) {
-                //                 console.error('Error parsing CSV:', error);
-                //             }
-                //         });
-                //     } else {
-                //         console.log("No file selected");
-                //     }
-                // });
+                    });
+                } else {
+                    console.log("No file selected");
+                }
             });
         </script>
     </body>
