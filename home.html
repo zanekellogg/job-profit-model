@@ -6,74 +6,257 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js"></script>
     </head>
     <body>
-        <span>Welp</span>
         <input type="file" id="file" title="File Input" accept=".csv" />
         <pre id="output"></pre>
+        <pre id="sampleData" hidden="true">
+            [{
+                "Job Date": "2024-10-01",
+                "Description": "Smith, Basic electric work",
+                "Labor": "2340",
+                "Materials": "1781",
+                "Overhead": "412.1",
+                "Amount Received": "5084.34",
+                "Original Estimate": "4867.36",
+                "jobDate": 1727740800000,
+                "labor": 2340,
+                "materials": 1781,
+                "overhead": 412.1,
+                "amountRecieved": 5084.34,
+                "originalEstimate": 4867.36
+            },            
+            {
+                "Job Date": "2024-10-10",
+                "Description": "Williams, Building a deck",
+                "Labor": "1170",
+                "Materials": "320",
+                "Overhead": "149",
+                "Amount Received": "2065.32",
+                "Original Estimate": "2112.93",
+                "jobDate": 1728518400000,
+                "labor": 1170,
+                "materials": 320,
+                "overhead": 149,
+                "amountRecieved": 2065.32,
+                "originalEstimate": 2112.93
+            },            
+            {
+                "Job Date": "2024-10-18",
+                "Description": "Jones, Floor installation",
+                "Labor": "1755",
+                "Materials": "1869",
+                "Overhead": "362.4",
+                "Amount Received": "4576.73",
+                "Original Estimate": "5367.54",
+                "jobDate": 1729209600000,
+                "labor": 1755,
+                "materials": 1869,
+                "overhead": 362.4,
+                "amountRecieved": 4576.73,
+                "originalEstimate": 5367.54
+            },            
+            {
+                "Job Date": "2024-10-28",
+                "Description": "Garcia, Kitchen remodel",
+                "Labor": "1170",
+                "Materials": "893",
+                "Overhead": "206.3",
+                "Amount Received": "2979.16",
+                "Original Estimate": "3555.42",
+                "jobDate": 1730073600000,
+                "labor": 1170,
+                "materials": 893,
+                "overhead": 206.3,
+                "amountRecieved": 2979.16,
+                "originalEstimate": 3555.42
+            },
+            {
+                "Job Date": "2024-11-01",
+                "Description": "Martinez, Plumbing repair",
+                "Labor": "1755",
+                "Materials": "1932",
+                "Overhead": "368.7",
+                "Amount Received": "5329.24",
+                "Original Estimate": "4337.2",
+                "jobDate": 1730419200000,
+                "labor": 1755,
+                "materials": 1932,
+                "overhead": 368.7,
+                "amountRecieved": 5329.24,
+                "originalEstimate": 4337.2
+            },
+            {
+                "Job Date": "2024-11-11",
+                "Description": "Wilson, Kitchen remodel",
+                "Labor": "1755",
+                "Materials": "1812",
+                "Overhead": "356.7",
+                "Amount Received": "4771.68",
+                "Original Estimate": "5653.69",
+                "jobDate": 1731283200000,
+                "labor": 1755,
+                "materials": 1812,
+                "overhead": 356.7,
+                "amountRecieved": 4771.68,
+                "originalEstimate": 5653.69
+            },
+            {
+                "Job Date": "2024-11-18",
+                "Description": "Taylor, Plumbing repair",
+                "Labor": "2340",
+                "Materials": "1789",
+                "Overhead": "412.9",
+                "Amount Received": "5612.3",
+                "Original Estimate": "5435.59",
+                "jobDate": 1731888000000,
+                "labor": 2340,
+                "materials": 1789,
+                "overhead": 412.9,
+                "amountRecieved": 5612.3,
+                "originalEstimate": 5435.59
+            },
+            {
+                "Job Date": "2024-11-28",
+                "Description": "White, Bathroom remodel",
+                "Labor": "1755",
+                "Materials": "501",
+                "Overhead": "225.6",
+                "Amount Received": "3331.97",
+                "Original Estimate": "3451.03",
+                "jobDate": 1732752000000,
+                "labor": 1755,
+                "materials": 501,
+                "overhead": 225.6,
+                "amountRecieved": 3331.97,
+                "originalEstimate": 3451.03
+            },            
+            {
+                "Job Date": "2024-12-09",
+                "Description": "Martin, Bathroom remodel",
+                "Labor": "1755",
+                "Materials": "209",
+                "Overhead": "196.4",
+                "Amount Received": "2387.84",
+                "Original Estimate": "2180.07",
+                "jobDate": 1733702400000,
+                "labor": 1755,
+                "materials": 209,
+                "overhead": 196.4,
+                "amountRecieved": 2387.84,
+                "originalEstimate": 2180.07
+            },            
+            {
+                "Job Date": "2024-12-23",
+                "Description": "Young, Basic electric work",
+                "Labor": "2925",
+                "Materials": "1416",
+                "Overhead": "434.1",
+                "Amount Received": "5779.8",
+                "Original Estimate": "5385.17",
+                "jobDate": 1734912000000,
+                "labor": 2925,
+                "materials": 1416,
+                "overhead": 434.1,
+                "amountRecieved": 5779.8,
+                "originalEstimate": 5385.17
+            }]
+        </pre>
         <script>
-                // Imports
-                const { fromEvent } = rxjs;
-                const { switchMap, map, tap } = rxjs.operators;
+            // Imports
+            const { fromEvent } = rxjs;
+            const { switchMap, map, tap } = rxjs.operators;
 
-                // Initialization
-                const fileInput = document.getElementById("file");
-                const output = document.getElementById('output');
+            // Initialization
+            const fileInput = document.getElementById("file");
+            const output = document.getElementById('output');
+            const sampleData = document.getElementById('sampleData');
 
-                // Event Streams
-                const fileInputChange$ = fromEvent(fileInput, 'change');
+            // First Load
+            var json = JSON.parse(sampleData.innerText);
+            var transformedData = transformData(json);
+            showData(transformedData);
 
-                // Transformations
+            // Event Streams
+            const fileInputChange$ = fromEvent(fileInput, 'change');
 
-                // File input changed
-                fileInputChange$.pipe(
-                    // Step 1: Read the file
-                    switchMap(event => {
-                        const file = event.target.files[0];
-                        if (!file) {
-                            return rxjs.EMPTY;
-                        }
+            // Transformations
 
-                        return new Promise((resolve, reject) => {
-                            Papa.parse(file, {
-                                header: true, // Convert rows to objects using the headers as keys
-                                skipEmptyLines: true,
-                                complete: (results) => resolve(results.data),
-                                error: (error) => reject(error)
-                            });                            
-                        })
-                    }),
-                    // Step 2: Transform
-                    map(parsedData => {
-                        return parsedData; // TODO - transformation logic here
-                    })  
-                ).subscribe({
-                    next: transformedData => {
-                        console.log("Data: " + transformedData);
-                        output.textContent = JSON.stringify(transformedData, null, 2);
-                    },
-                    error: err => console.error("Error: ", err),
-                    complete: () => console.log("Processing Complete")
+            // *** Helper Functions
+            function transformData(data) {
+                return data.map(entry => {
+                    const jobDate = Date.parse(entry["Job Date"]);
+                    const description = entry.Description;
+                    const labor = parseFloat(entry["Labor"] || 0);
+                    const materials = parseFloat(entry["Materials"] || 0);
+                    const overhead = parseFloat(entry["Overhead"] || 0);
+                    const amountRecieved = parseFloat(entry["Amount Received"] || 0);
+                    const originalEstimate = parseFloat(entry["Original Estimate"] || 0);
+
+                    // Profit
+                    var profit = amountRecieved - labor - materials - overhead;
+                    profit = parseFloat(profit.toFixed(2));
+
+                    // Profit Percent
+                    var profitPercent = profit / amountRecieved;
+                    profitPercent = parseFloat(profitPercent.toFixed(4));
+
+                    // Estimate Variance
+                    var variance = amountRecieved - originalEstimate;
+                    variance = parseFloat(variance.toFixed(2));
+
+                    // Estimate Variance Percent
+                    var variancePercent = variance / originalEstimate;
+                    variancePercent = parseFloat(variancePercent.toFixed(4));
+
+                    return {
+                        jobDate,
+                        description,
+                        labor,
+                        materials,
+                        overhead,
+                        amountRecieved,
+                        originalEstimate,
+                        profit,
+                        profitPercent,
+                        variance,
+                        variancePercent
+                    }
                 });
-                
-                
-                // .subscribe(event => {
-                //     const file = event.target.files[0];
+            }
 
-                //     if (file) {
-                //         Papa.parse(file, {
-                //             header: true, // Convert rows into objects using the headers as keys
-                //             skipEmptyLines: true,
-                //             complete: function(results) {
-                //                 console.log('Parsed Results:', results.data);
-                //                 output.textContent = JSON.stringify(results.data, null, 2); // Display the parsed object
-                //             },
-                //             error: function(error) {
-                //                 console.error('Error parsing CSV:', error);
-                //             }
-                //         });
-                //     } else {
-                //         console.log("No file selected");
-                //     }
-                // });
+            function showData(transformedData) {
+                console.log(transformedData);
+                output.textContent = JSON.stringify(transformedData, null, 2);
+            }
+
+            // File input changed
+            fileInputChange$.pipe(
+                // Step 1: Read the file
+                switchMap(event => {
+                    const file = event.target.files[0];
+                    if (!file) {
+                        return rxjs.EMPTY;
+                    }
+
+                    return new Promise((resolve, reject) => {
+                        Papa.parse(file, {
+                            header: true, // Convert rows to objects using the headers as keys
+                            skipEmptyLines: true,
+                            complete: (results) => resolve(results.data),
+                            error: (error) => reject(error)
+                        });                            
+                    })
+                }),
+                // Step 2: Transform
+                map(parsedData => {
+                    return transformData(parsedData);
+                })
+            ).subscribe({
+                next: transformedData => {
+                    showData(transformData);
+                },
+                error: err => console.error("Error: ", err),
+                complete: () => console.log("Processing Complete")
+            });
         </script>
     </body>
 </html>
