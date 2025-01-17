@@ -4,9 +4,15 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
         <input type="file" id="file" title="File Input" accept=".csv" />
+        
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+
         <pre id="output"></pre>
         <pre id="sampleData" hidden="true">
             [{
@@ -16,14 +22,8 @@
                 "Materials": "1781",
                 "Overhead": "412.1",
                 "Amount Received": "5084.34",
-                "Original Estimate": "4867.36",
-                "jobDate": 1727740800000,
-                "labor": 2340,
-                "materials": 1781,
-                "overhead": 412.1,
-                "amountRecieved": 5084.34,
-                "originalEstimate": 4867.36
-            },            
+                "Original Estimate": "4867.36"
+            },
             {
                 "Job Date": "2024-10-10",
                 "Description": "Williams, Building a deck",
@@ -31,14 +31,17 @@
                 "Materials": "320",
                 "Overhead": "149",
                 "Amount Received": "2065.32",
-                "Original Estimate": "2112.93",
-                "jobDate": 1728518400000,
-                "labor": 1170,
-                "materials": 320,
-                "overhead": 149,
-                "amountRecieved": 2065.32,
-                "originalEstimate": 2112.93
-            },            
+                "Original Estimate": "2112.93"
+            },
+            {
+                "Job Date": "2024-10-28",
+                "Description": "Garcia, Kitchen remodel",
+                "Labor": "850",
+                "Materials": "893",
+                "Overhead": "206.3",
+                "Amount Received": "2179.16",
+                "Original Estimate": "2355"
+            },
             {
                 "Job Date": "2024-10-18",
                 "Description": "Jones, Floor installation",
@@ -46,28 +49,7 @@
                 "Materials": "1869",
                 "Overhead": "362.4",
                 "Amount Received": "4576.73",
-                "Original Estimate": "5367.54",
-                "jobDate": 1729209600000,
-                "labor": 1755,
-                "materials": 1869,
-                "overhead": 362.4,
-                "amountRecieved": 4576.73,
-                "originalEstimate": 5367.54
-            },            
-            {
-                "Job Date": "2024-10-28",
-                "Description": "Garcia, Kitchen remodel",
-                "Labor": "1170",
-                "Materials": "893",
-                "Overhead": "206.3",
-                "Amount Received": "2979.16",
-                "Original Estimate": "3555.42",
-                "jobDate": 1730073600000,
-                "labor": 1170,
-                "materials": 893,
-                "overhead": 206.3,
-                "amountRecieved": 2979.16,
-                "originalEstimate": 3555.42
+                "Original Estimate": "5367.54"
             },
             {
                 "Job Date": "2024-11-01",
@@ -76,13 +58,7 @@
                 "Materials": "1932",
                 "Overhead": "368.7",
                 "Amount Received": "5329.24",
-                "Original Estimate": "4337.2",
-                "jobDate": 1730419200000,
-                "labor": 1755,
-                "materials": 1932,
-                "overhead": 368.7,
-                "amountRecieved": 5329.24,
-                "originalEstimate": 4337.2
+                "Original Estimate": "4337.2"
             },
             {
                 "Job Date": "2024-11-11",
@@ -91,13 +67,7 @@
                 "Materials": "1812",
                 "Overhead": "356.7",
                 "Amount Received": "4771.68",
-                "Original Estimate": "5653.69",
-                "jobDate": 1731283200000,
-                "labor": 1755,
-                "materials": 1812,
-                "overhead": 356.7,
-                "amountRecieved": 4771.68,
-                "originalEstimate": 5653.69
+                "Original Estimate": "5653.69"
             },
             {
                 "Job Date": "2024-11-18",
@@ -106,13 +76,7 @@
                 "Materials": "1789",
                 "Overhead": "412.9",
                 "Amount Received": "5612.3",
-                "Original Estimate": "5435.59",
-                "jobDate": 1731888000000,
-                "labor": 2340,
-                "materials": 1789,
-                "overhead": 412.9,
-                "amountRecieved": 5612.3,
-                "originalEstimate": 5435.59
+                "Original Estimate": "5435.59"
             },
             {
                 "Job Date": "2024-11-28",
@@ -121,14 +85,8 @@
                 "Materials": "501",
                 "Overhead": "225.6",
                 "Amount Received": "3331.97",
-                "Original Estimate": "3451.03",
-                "jobDate": 1732752000000,
-                "labor": 1755,
-                "materials": 501,
-                "overhead": 225.6,
-                "amountRecieved": 3331.97,
-                "originalEstimate": 3451.03
-            },            
+                "Original Estimate": "3451.03"
+            },
             {
                 "Job Date": "2024-12-09",
                 "Description": "Martin, Bathroom remodel",
@@ -136,14 +94,8 @@
                 "Materials": "209",
                 "Overhead": "196.4",
                 "Amount Received": "2387.84",
-                "Original Estimate": "2180.07",
-                "jobDate": 1733702400000,
-                "labor": 1755,
-                "materials": 209,
-                "overhead": 196.4,
-                "amountRecieved": 2387.84,
-                "originalEstimate": 2180.07
-            },            
+                "Original Estimate": "2180.07"
+            },
             {
                 "Job Date": "2024-12-23",
                 "Description": "Young, Basic electric work",
@@ -151,13 +103,7 @@
                 "Materials": "1416",
                 "Overhead": "434.1",
                 "Amount Received": "5779.8",
-                "Original Estimate": "5385.17",
-                "jobDate": 1734912000000,
-                "labor": 2925,
-                "materials": 1416,
-                "overhead": 434.1,
-                "amountRecieved": 5779.8,
-                "originalEstimate": 5385.17
+                "Original Estimate": "5385.17"
             }]
         </pre>
         <script>
@@ -182,6 +128,14 @@
 
             // *** Helper Functions
             function transformData(data) {
+                
+                var highestLabor = 0;
+                data.forEach(e => {
+                    const labor = parseFloat(e["Labor"]);
+                    highestLabor = (labor > highestLabor) ? labor : highestLabor;
+                });
+                const laborDivider = highestLabor / 3;
+                
                 return data.map(entry => {
                     const jobDateUtc = Date.parse(entry["Job Date"]);
                     const jobDate = new Date(jobDateUtc);
@@ -215,6 +169,14 @@
                     const monthLabel = monthLabels[jobDate.getMonth()];
                     const dateLabel = monthLabel + "-" + year;
 
+                    // Labor Group
+                    var laborGroup = "S";
+                    if (labor >= laborDivider && labor < (laborDivider * 2)) {
+                        laborGroup = "M";
+                    } else if (labor >= (laborDivider * 2)) {
+                        laborGroup = "L";
+                    }
+
                     return {
                         jobDate,
                         description,
@@ -230,7 +192,8 @@
                         monthNumber,
                         year,
                         monthLabel,
-                        dateLabel
+                        dateLabel,
+                        laborGroup
                     }
                 });
             }
