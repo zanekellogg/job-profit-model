@@ -1,19 +1,23 @@
 <html>
     <head>
         <title>Job Profit Model</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body>
-        <input type="file" id="file" title="File Input" accept=".csv" />
+        <div class="container">
+            <input type="file" id="file" title="File Input" accept=".csv" />
+        </div>
         
-        <div>
+        <div class="container">
             <canvas id="myChart"></canvas>
         </div>
 
-        <pre id="output"></pre>
+        <pre id="output" hidden="true"></pre>
         <pre id="sampleData" hidden="true">
             [{
                 "Job Date": "2024-10-01",
@@ -106,6 +110,82 @@
                 "Original Estimate": "5385.17"
             }]
         </pre>
+
+        <script>
+            const ctx = document.getElementById('myChart');
+
+            function buildCharts(data) {
+                console.log("Build charts called");
+                const profitBI = getProfitBI(data);
+                console.log(profitBI);
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: profitBI.map(e => e.monthLabel),
+                        datasets: [{
+                            label: 'Profit Percent',
+                            data: profitBI.map(e => e.average),
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Total Profit',
+                            data: profitBI.map(e => e.sum),
+                            borderWidth: 1}]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            function getProfitBI(data) {
+                // Step 1: Group data by month
+                const groupedData = {};
+                data.forEach(entry => {
+                    const month = entry.monthNumber;
+                    if (!groupedData[month]) {
+                        groupedData[month] = [];
+                    }
+                    groupedData[month].push(entry.profitPercent);
+                });
+
+                console.log(groupedData);
+                
+                // Step 2: Calculate averages
+                const monthlyAverages = [];
+                for (const [month, profits] of Object.entries(groupedData)) {
+                    const sum = profits.reduce((acc, profit) => acc + profit, 0);
+                    const avg = (sum / profits.length).toFixed(2);
+
+                    monthlyAverages.push({
+                        "month": parseInt(month),
+                        "total": sum,
+                        "average": parseFloat(avg),
+                        "monthLabel": data.find(entry => entry.monthNumber == month).monthLabel
+                    });
+                }
+
+                return monthlyAverages;
+            }
+
+            function reduceDistinct(data, field)
+            {
+                const distinct = [];
+                data.forEach(entry => {
+                    if (!distinct.includes(entry[field]))
+                    {
+                        distinct.push(entry[field]);
+                    }
+                });
+
+                return distinct;
+            }
+        </script>
         <script>
             // Imports
             const { fromEvent } = rxjs;
@@ -151,7 +231,7 @@
                     profit = parseFloat(profit.toFixed(2));
 
                     // Profit Percent
-                    var profitPercent = profit / amountRecieved;
+                    var profitPercent = (profit / amountRecieved) * 100;
                     profitPercent = parseFloat(profitPercent.toFixed(4));
 
                     // Estimate Variance
@@ -159,7 +239,7 @@
                     variance = parseFloat(variance.toFixed(2));
 
                     // Estimate Variance Percent
-                    var variancePercent = variance / originalEstimate;
+                    var variancePercent = (variance / originalEstimate) * 100;
                     variancePercent = parseFloat(variancePercent.toFixed(4));
 
                     // Month & Year
@@ -201,6 +281,7 @@
             function showData(transformedData) {
                 console.log(transformedData);
                 output.textContent = JSON.stringify(transformedData, null, 2);
+                buildCharts(transformedData);
             }
 
             // File input changed
@@ -233,5 +314,6 @@
                 complete: () => console.log("Processing Complete")
             });
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
