@@ -10,3 +10,9 @@
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# NPM
+node_modules/
+
+# esbuild
+dist/
