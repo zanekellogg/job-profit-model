@@ -26,7 +26,6 @@ function launch()
 }
 
 function showData(transformedData) {
-    console.log(transformedData);
     output.textContent = JSON.stringify(transformedData, null, 2);
     buildCharts(transformedData);
 }
@@ -59,8 +58,8 @@ function initEventStreams()
         next: transformedData => {
             showData(transformedData);
         },
-        error: err => console.error("Error: ", err),
-        complete: () => console.log("Processing Complete")
+        error: err => console.error("Error Processing File: ", err),
+        complete: () => console.log("Processing File Complete")
     });
 }
 

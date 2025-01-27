@@ -1,11 +1,18 @@
+import { getGroupedMonthlyProfitData } from "./data";
+
 const ctx = document.getElementById('myChart');
+var chart;
 
 export function buildCharts(data) {
     console.log("Build charts called");
-    const profitBI = getProfitBI(data);
-    console.log(profitBI);
+    const profitBI = getGroupedMonthlyProfitData(data);
 
-    new Chart(ctx, {
+    if (chart)
+    {
+        chart.destroy();
+    }
+    
+    chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: profitBI.map(e => e.monthLabel),
@@ -27,36 +34,6 @@ export function buildCharts(data) {
             }
         }
     });
-}
-
-function getProfitBI(data) {
-    // Step 1: Group data by month
-    const groupedData = {};
-    data.forEach(entry => {
-        const month = entry.monthNumber;
-        if (!groupedData[month]) {
-            groupedData[month] = [];
-        }
-        groupedData[month].push(entry.profitPercent);
-    });
-
-    console.log(groupedData);
-    
-    // Step 2: Calculate averages
-    const monthlyAverages = [];
-    for (const [month, profits] of Object.entries(groupedData)) {
-        const sum = profits.reduce((acc, profit) => acc + profit, 0);
-        const avg = (sum / profits.length).toFixed(2);
-
-        monthlyAverages.push({
-            "month": parseInt(month),
-            "total": sum,
-            "average": parseFloat(avg),
-            "monthLabel": data.find(entry => entry.monthNumber == month).monthLabel
-        });
-    }
-
-    return monthlyAverages;
 }
 
 // function reduceDistinct(data, field)

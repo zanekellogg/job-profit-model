@@ -68,3 +68,32 @@ export function transformData(data)
         }
     });
 }
+
+export function getGroupedMonthlyProfitData(data)
+{
+    // Step 1: Group data by month
+    const groupedData = {};
+    data.forEach(entry => {
+        const month = entry.monthNumber;
+        if (!groupedData[month]) {
+            groupedData[month] = [];
+        }
+        groupedData[month].push(entry.profitPercent);
+    });
+    
+    // Step 2: Calculate averages
+    const monthlyAverages = [];
+    for (const [month, profits] of Object.entries(groupedData)) {
+        const sum = profits.reduce((acc, profit) => acc + profit, 0);
+        const avg = (sum / profits.length).toFixed(2);
+
+        monthlyAverages.push({
+            "month": parseInt(month),
+            "total": sum,
+            "average": parseFloat(avg),
+            "monthLabel": data.find(entry => entry.monthNumber == month).monthLabel
+        });
+    }
+
+    return monthlyAverages;
+}
