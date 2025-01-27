@@ -74,25 +74,34 @@ export function getGroupedMonthlyProfitData(data)
     // Step 1: Group data by month
     const groupedData = {};
     data.forEach(entry => {
-        const month = entry.monthNumber;
-        if (!groupedData[month]) {
-            groupedData[month] = [];
+        const dateLabel = entry.dateLabel;
+        if (!groupedData[dateLabel]) {
+            groupedData[dateLabel] = [];
         }
-        groupedData[month].push(entry.profitPercent);
+        groupedData[dateLabel].push({
+            ProfitPercent: entry.profitPercent,
+            Profit: entry.profit
+        });
     });
-    
-    // Step 2: Calculate averages
+
+    // Step 2: Calculate grouped vectors
     const monthlyAverages = [];
-    for (const [month, profits] of Object.entries(groupedData)) {
-        const sum = profits.reduce((acc, profit) => acc + profit, 0);
-        const avg = (sum / profits.length).toFixed(2);
+    for (const key of Object.keys(groupedData))
+    {
+        const entry = groupedData[key];
+
+        // Calculate Avg. Profit Percentage
+        const sumPP = entry.reduce((acc, pp) => acc + pp.ProfitPercent, 0);
+        const avgPP = (sumPP / entry.length).toFixed(2);
+
+        // Calculate Sum Profit
+        const sumP = entry.reduce((acc, p) => acc + p.Profit, 0);
 
         monthlyAverages.push({
-            "month": parseInt(month),
-            "total": sum,
-            "average": parseFloat(avg),
-            "monthLabel": data.find(entry => entry.monthNumber == month).monthLabel
-        });
+            "total": parseFloat(sumP),
+            "average": parseFloat(avgPP),
+            "dateLabel": key
+        })
     }
 
     return monthlyAverages;

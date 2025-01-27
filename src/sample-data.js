@@ -106,4 +106,13 @@ export const sampleData =
         "Overhead": "150",
         "Amount Received": "4500",
         "Original Estimate": "4500"
+    },
+    {
+        "Job Date": "2025-10-15",
+        "Description": "Carter, Clog removal",
+        "Labor": "500",
+        "Materials": "45",
+        "Overhead": "50",
+        "Amount Received": "700",
+        "Original Estimate": "700"
     }];

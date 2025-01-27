@@ -7,6 +7,8 @@ export function buildCharts(data) {
     console.log("Build charts called");
     const profitBI = getGroupedMonthlyProfitData(data);
 
+    console.log(profitBI);
+
     if (chart)
     {
         chart.destroy();
@@ -15,7 +17,7 @@ export function buildCharts(data) {
     chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: profitBI.map(e => e.monthLabel),
+            labels: profitBI.map(e => e.dateLabel),
             datasets: [{
                 label: 'Profit Percent',
                 data: profitBI.map(e => e.average),
@@ -23,7 +25,7 @@ export function buildCharts(data) {
             },
             {
                 label: 'Total Profit',
-                data: profitBI.map(e => e.sum),
+                data: profitBI.map(e => e.total),
                 borderWidth: 1}]
         },
         options: {
