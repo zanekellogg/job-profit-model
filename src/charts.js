@@ -21,17 +21,37 @@ export function buildCharts(data) {
             datasets: [{
                 label: 'Profit Percent',
                 data: profitBI.map(e => e.average),
-                borderWidth: 1
+                borderWidth: 1,
+                yAxisID: 'y-left'
             },
             {
                 label: 'Total Profit',
                 data: profitBI.map(e => e.total),
-                borderWidth: 1}]
+                borderWidth: 1,
+                yAxisID: 'y-right'
+            }]
         },
         options: {
             scales: {
-                y: {
-                    beginAtZero: true
+                'y-left': {
+                    position: 'left',
+                    title: { display: true, text: 'Profit Percent'},
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                },
+                'y-right': {
+                    position: 'right',
+                    title: { display: true, text: 'Total Profit'},
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString(); // Format numbers with commas
+                        }
+                    }
                 }
             }
         }
