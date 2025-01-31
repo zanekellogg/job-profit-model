@@ -106,3 +106,10 @@ export function getGroupedMonthlyProfitData(data)
 
     return monthlyAverages;
 }
+
+export function getAverageProfitPercent(data)
+{
+    var total = 0.0;
+    data.map(e => total += e.profitPercent);
+    return parseFloat((total / data.length).toFixed(2));
+}

@@ -202,18 +202,28 @@ var App = (() => {
     }
     return monthlyAverages;
   }
+  function getAverageProfitPercent(data) {
+    var total = 0;
+    data.map((e) => total += e.profitPercent);
+    return parseFloat((total / data.length).toFixed(2));
+  }
 
   // src/charts.js
-  var ctx = document.getElementById("myChart");
+  var profitCtx = document.getElementById("profitCtx");
+  var profitCard = document.getElementById("profitCard");
   var chart;
   function buildCharts(data) {
     console.log("Build charts called");
     const profitBI = getGroupedMonthlyProfitData(data);
-    console.log(profitBI);
+    const avgProfitPercent = getAverageProfitPercent(data);
+    chart = new Chart(profitCtx, getProfitBIConfiguration(profitBI));
+    profitCard.innerText = avgProfitPercent + "%";
+  }
+  function getProfitBIConfiguration(profitBI) {
     if (chart) {
       chart.destroy();
     }
-    chart = new Chart(ctx, {
+    return {
       type: "bar",
       data: {
         labels: profitBI.map((e) => e.dateLabel),
@@ -238,25 +248,31 @@ var App = (() => {
             position: "left",
             title: { display: true, text: "Profit Percent" },
             beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return value + "%";
-              }
-            }
+            ticks: PercentScaleTickConfig()
           },
           "y-right": {
             position: "right",
             title: { display: true, text: "Total Profit" },
             beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return "$" + value.toLocaleString();
-              }
-            }
+            ticks: DollarScaleTickConfig()
           }
         }
       }
-    });
+    };
+  }
+  function PercentScaleTickConfig() {
+    return {
+      callback: function(value) {
+        return value + "%";
+      }
+    };
+  }
+  function DollarScaleTickConfig() {
+    return {
+      callback: function(value) {
+        return "$" + value.toLocaleString();
+      }
+    };
   }
 
   // src/main.js

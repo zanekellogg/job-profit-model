@@ -3,6 +3,7 @@
     "esbuild": "^0.24.2"
   },
   "scripts": {
-    "build": "esbuild src/main.js --bundle  --outfile=dist/bundle.js --format=iife --global-name=App"
+    "build": "esbuild src/main.js --bundle  --outfile=dist/bundle.js --format=iife --global-name=App",
+    "watch": "esbuild src/main.js --bundle  --outfile=dist/bundle.js --format=iife --global-name=App --watch"
   }
 }
