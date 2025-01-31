@@ -128,15 +128,15 @@ var App = (() => {
       highestLabor = labor > highestLabor ? labor : highestLabor;
     });
     const laborDivider = highestLabor / 3;
-    return data.map((entry) => {
-      const jobDateUtc = Date.parse(entry["Job Date"]);
+    return data.map((entry2) => {
+      const jobDateUtc = Date.parse(entry2["Job Date"]);
       const jobDate = new Date(jobDateUtc);
-      const description = entry.Description;
-      const labor = parseFloat(entry["Labor"] || 0);
-      const materials = parseFloat(entry["Materials"] || 0);
-      const overhead = parseFloat(entry["Overhead"] || 0);
-      const amountRecieved = parseFloat(entry["Amount Received"] || 0);
-      const originalEstimate = parseFloat(entry["Original Estimate"] || 0);
+      const description = entry2.Description;
+      const labor = parseFloat(entry2["Labor"] || 0);
+      const materials = parseFloat(entry2["Materials"] || 0);
+      const overhead = parseFloat(entry2["Overhead"] || 0);
+      const amountRecieved = parseFloat(entry2["Amount Received"] || 0);
+      const originalEstimate = parseFloat(entry2["Original Estimate"] || 0);
       var profit = amountRecieved - labor - materials - overhead;
       profit = parseFloat(profit.toFixed(2));
       var profitPercent = profit / amountRecieved * 100;
@@ -178,40 +178,61 @@ var App = (() => {
   }
   function getGroupedMonthlyIntelligenceData(data) {
     const groupedData = {};
-    data.forEach((entry) => {
-      const dateLabel = entry.dateLabel;
+    data.forEach((entry2) => {
+      const dateLabel = entry2.dateLabel;
       if (!groupedData[dateLabel]) {
         groupedData[dateLabel] = [];
       }
       groupedData[dateLabel].push({
-        profitPercent: entry.profitPercent,
-        profit: entry.profit,
-        variance: entry.variance
+        profitPercent: entry2.profitPercent,
+        profit: entry2.profit,
+        variance: entry2.variance,
+        laborGroup: entry2.laborGroup
       });
     });
     const monthlyAverages = [];
     for (const key of Object.keys(groupedData)) {
-      const entry = groupedData[key];
-      const sumPP = entry.reduce((acc, pp) => acc + pp.profitPercent, 0);
-      const avgPP = (sumPP / entry.length).toFixed(2);
-      const variance = entry.reduce((total, entry2) => total + entry2.variance, 0).toFixed(2);
-      const sumP = entry.reduce((acc, p) => acc + p.profit, 0);
+      const entries = groupedData[key];
+      const avgPP = getAverage(getSum(entries, "profitPercent"), entries.length);
+      const variance = getSum(entries, "variance").toFixed(2);
+      const smallEntries2 = entries.filter((item) => item.laborGroup == "S");
+      const smallSumPP = getSum(smallEntries2, "profitPercent");
+      const smallAvgPP = getAverage(smallSumPP, smallEntries2.length);
+      const medEntries = entries.filter((item) => item.laborGroup == "M");
+      const medSumPP = getSum(medEntries, "profitPercent");
+      const medAvgPP = getAverage(medSumPP, medEntries.length);
+      const largeEntries = entries.filter((item) => item.laborGroup == "L");
+      const largeSumPP = getSum(largeEntries, "profitPercent");
+      const largeAvgPP = getAverage(largeSumPP, largeEntries.length);
+      const sumP = getSum(entries, "profit");
       monthlyAverages.push({
-        "total": parseFloat(sumP),
-        "average": parseFloat(avgPP),
-        "variance": parseFloat(variance),
+        "total": sumP,
+        "average": avgPP,
+        "variance": variance,
+        "smallLaborAvgProfit": smallAvgPP,
+        "mediumLaborAvgProfit": medAvgPP,
+        "largeLaborAvgProfit": largeAvgPP,
         "dateLabel": key
       });
     }
     return monthlyAverages;
   }
   function getAverageProfitPercent(data) {
-    const sum = data.reduce((total, entry) => total += entry.profitPercent, 0);
+    const sum = getSum(data, "profitPercent");
     return getAverage(sum, data.length);
   }
   function getAverageVariance(data) {
-    var sum = data.reduce((total, entry) => total += entry.variance, 0);
+    var sum = getSum(data, "variance");
     return getAverage(sum, data.length);
+  }
+  function getSum(data, field) {
+    if (data == 0) {
+      return 0;
+    }
+    if (data.length < 2) {
+      return parseFloat(data[0][field]);
+    }
+    return data.reduce((total, entry2) => total += entry2[field], 0);
   }
   function getAverage(sum, total) {
     const avg = sum / total;

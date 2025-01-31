@@ -81,28 +81,46 @@ export function getGroupedMonthlyIntelligenceData(data)
         groupedData[dateLabel].push({
             profitPercent: entry.profitPercent,
             profit: entry.profit,
-            variance: entry.variance
+            variance: entry.variance,
+            laborGroup: entry.laborGroup
         });
     });
+
+    // console.log("Grouped", groupedData);
 
     // Step 2: Calculate grouped vectors
     const monthlyAverages = [];
     for (const key of Object.keys(groupedData))
     {
-        const entry = groupedData[key];
+        const entries = groupedData[key];
 
         // Calculate Avg. Profit Percentage
-        const sumPP = entry.reduce((acc, pp) => acc + pp.profitPercent, 0);
-        const avgPP = (sumPP / entry.length).toFixed(2);
-        const variance = entry.reduce((total, entry) => total + entry.variance, 0).toFixed(2);
+        const avgPP = getAverage(getSum(entries, 'profitPercent'), entries.length);
+        
+        // Calculate Variance
+        const variance = getSum(entries, 'variance').toFixed(2);
+
+        // Calculate Labor Group Variance
+        const smallEntries = entries.filter(item => item.laborGroup == 'S');
+        const smallSumPP = getSum(smallEntries, 'profitPercent');
+        const smallAvgPP = getAverage(smallSumPP, smallEntries.length);
+        const medEntries = entries.filter(item => item.laborGroup == 'M');
+        const medSumPP = getSum(medEntries, 'profitPercent');
+        const medAvgPP = getAverage(medSumPP, medEntries.length);
+        const largeEntries = entries.filter(item => item.laborGroup == 'L');
+        const largeSumPP = getSum(largeEntries, 'profitPercent');
+        const largeAvgPP = getAverage(largeSumPP, largeEntries.length);
 
         // Calculate Sum Profit
-        const sumP = entry.reduce((acc, p) => acc + p.profit, 0);
+        const sumP = getSum(entries, 'profit');
 
         monthlyAverages.push({
-            "total": parseFloat(sumP),
-            "average": parseFloat(avgPP),
-            "variance": parseFloat(variance),
+            "total": sumP,
+            "average": avgPP,
+            "variance": variance,
+            "smallLaborAvgProfit": smallAvgPP,
+            "mediumLaborAvgProfit": medAvgPP,
+            "largeLaborAvgProfit": largeAvgPP,
             "dateLabel": key
         })
     }
@@ -112,19 +130,40 @@ export function getGroupedMonthlyIntelligenceData(data)
 
 export function getAverageProfitPercent(data)
 {
-    const sum = data.reduce((total, entry) => total += entry.profitPercent, 0);
+    const sum = getSum(data, 'profitPercent');
     return getAverage(sum, data.length);
 }
 
 export function getAverageVariance(data)
 {
-    // data.map(e => console.log(e.variance));
-    var sum = data.reduce((total, entry) => total += entry.variance, 0);
+    var sum = getSum(data, 'variance');
     return getAverage(sum, data.length);
+}
+
+function getSum(data, field)
+{
+    if (data == 0)
+    {
+        return 0;
+    }
+
+    if (data.length < 2)
+    {
+        return parseFloat(data[0][field]);
+    }
+
+    return data.reduce((total, entry) => total += entry[field], 0);
 }
 
 function getAverage(sum, total)
 {
     const avg = sum / total;
     return avg.toFixed(2);
+}
+
+function getLaborGroupAverage(laborGroup)
+{
+    const entries = entry.filter(item => item.laborGroup == laborGroup);
+    const smallSumPP = smallEntries.reduce((acc, pp) => acc + pp.profitPercent, 0);
+    const smallAvgPP = (smallEntries.length > 0) ? (smallSumPP / smallEntries.length).toFixed(2) : 0;
 }
