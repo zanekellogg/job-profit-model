@@ -1,37 +1,56 @@
-import { getAverageProfitPercent, getGroupedMonthlyProfitData } from "./data";
+import { getAverageProfitPercent, getAverageVariance, getGroupedMonthlyIntelligenceData } from "./data";
 
+
+// Profit 
 const profitCtx = document.getElementById('profitCtx');
 const profitCard = document.getElementById('profitCard');
+var profitChart;
 
-var chart;
+// Variance
+const varianceCtx = document.getElementById('varianceCtx');
+const varianceCard = document.getElementById('varianceCard');
+var varianceChart;
 
 export function buildCharts(data) {
     console.log("Build charts called");
 
-    // Profit Charts
-    const profitBI = getGroupedMonthlyProfitData(data);
+    // Get Data
+    const biData = getGroupedMonthlyIntelligenceData(data);
+    console.log(biData);
     const avgProfitPercent = getAverageProfitPercent(data);
-    chart = new Chart(profitCtx, getProfitBIConfiguration(profitBI));
+    const avgVariance = getAverageVariance(data);
+
+    // Profit Charts
+    profitChart = new Chart(profitCtx, getProfitChartConfiguration(biData));
     profitCard.innerText = avgProfitPercent + '%';
+
+    // Variance Charts
+    if (avgVariance > 0) {
+        varianceCard.innerText = '$' + avgVariance;
+        varianceCard.classList.add('text-success');
+    } else {
+        varianceCard.innerText = '-$' + (avgVariance * -1);
+        varianceCard.classList.add('text-danger');
+    }
 }
 
-function getProfitBIConfiguration(profitBI)
+function getProfitChartConfiguration(biData)
 {
-    if (chart) { chart.destroy(); }
+    if (profitChart) { profitChart.destroy(); }
 
     return {
         type: 'bar',
         data: {
-            labels: profitBI.map(e => e.dateLabel),
+            labels: biData.map(e => e.dateLabel),
             datasets: [{
                 label: 'Profit Percent',
-                data: profitBI.map(e => e.average),
+                data: biData.map(e => e.average),
                 borderWidth: 1,
                 yAxisID: 'y-left'
             },
             {
                 label: 'Total Profit',
-                data: profitBI.map(e => e.total),
+                data: biData.map(e => e.total),
                 borderWidth: 1,
                 yAxisID: 'y-right'
             }]

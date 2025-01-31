@@ -51,6 +51,8 @@
         </div>
         
         <div class="container my-4">
+
+            <!-- Profit Charts -->
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="card">
@@ -69,7 +71,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Row for description box-->
             <div class="row">
                 <div class="col-12">
@@ -83,6 +84,41 @@
                     </div>
                 </div>
             </div>
+            <!-- End Profit Charts -->
+
+            <!-- Variance Charts -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <canvas id="varianceCtx"></canvas>
+                        <div class="card-body">
+                            <p class="card-subtext">Variance Over Time</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <div id="varianceCard" class="card-bold-text">21%</div>
+                            <div class="card-subtext">Average Estimate Variance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row for description box-->
+            <div class="row">
+                <div class="col-12">
+                    <div class="description-box">
+                        <h5>Understanding the Metrics</h5>
+                        <p>
+                            The first card provides a visual representation of profit percent and profit over time, while the second card highlights the
+                            average profit percentage. This information helps in analyzing profitability trends and making informed
+                            business decisions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- End Profit Charts -->
             
         </div>
 

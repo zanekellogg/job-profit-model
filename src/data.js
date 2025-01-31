@@ -69,7 +69,7 @@ export function transformData(data)
     });
 }
 
-export function getGroupedMonthlyProfitData(data)
+export function getGroupedMonthlyIntelligenceData(data)
 {
     // Step 1: Group data by month
     const groupedData = {};
@@ -79,8 +79,9 @@ export function getGroupedMonthlyProfitData(data)
             groupedData[dateLabel] = [];
         }
         groupedData[dateLabel].push({
-            ProfitPercent: entry.profitPercent,
-            Profit: entry.profit
+            profitPercent: entry.profitPercent,
+            profit: entry.profit,
+            variance: entry.variance
         });
     });
 
@@ -91,15 +92,17 @@ export function getGroupedMonthlyProfitData(data)
         const entry = groupedData[key];
 
         // Calculate Avg. Profit Percentage
-        const sumPP = entry.reduce((acc, pp) => acc + pp.ProfitPercent, 0);
+        const sumPP = entry.reduce((acc, pp) => acc + pp.profitPercent, 0);
         const avgPP = (sumPP / entry.length).toFixed(2);
+        const variance = entry.reduce((total, entry) => total + entry.variance, 0).toFixed(2);
 
         // Calculate Sum Profit
-        const sumP = entry.reduce((acc, p) => acc + p.Profit, 0);
+        const sumP = entry.reduce((acc, p) => acc + p.profit, 0);
 
         monthlyAverages.push({
             "total": parseFloat(sumP),
             "average": parseFloat(avgPP),
+            "variance": parseFloat(variance),
             "dateLabel": key
         })
     }
@@ -109,7 +112,19 @@ export function getGroupedMonthlyProfitData(data)
 
 export function getAverageProfitPercent(data)
 {
-    var total = 0.0;
-    data.map(e => total += e.profitPercent);
-    return parseFloat((total / data.length).toFixed(2));
+    const sum = data.reduce((total, entry) => total += entry.profitPercent, 0);
+    return getAverage(sum, data.length);
+}
+
+export function getAverageVariance(data)
+{
+    // data.map(e => console.log(e.variance));
+    var sum = data.reduce((total, entry) => total += entry.variance, 0);
+    return getAverage(sum, data.length);
+}
+
+function getAverage(sum, total)
+{
+    const avg = sum / total;
+    return avg.toFixed(2);
 }

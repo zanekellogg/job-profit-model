@@ -176,7 +176,7 @@ var App = (() => {
       };
     });
   }
-  function getGroupedMonthlyProfitData(data) {
+  function getGroupedMonthlyIntelligenceData(data) {
     const groupedData = {};
     data.forEach((entry) => {
       const dateLabel = entry.dateLabel;
@@ -184,59 +184,80 @@ var App = (() => {
         groupedData[dateLabel] = [];
       }
       groupedData[dateLabel].push({
-        ProfitPercent: entry.profitPercent,
-        Profit: entry.profit
+        profitPercent: entry.profitPercent,
+        profit: entry.profit,
+        variance: entry.variance
       });
     });
     const monthlyAverages = [];
     for (const key of Object.keys(groupedData)) {
       const entry = groupedData[key];
-      const sumPP = entry.reduce((acc, pp) => acc + pp.ProfitPercent, 0);
+      const sumPP = entry.reduce((acc, pp) => acc + pp.profitPercent, 0);
       const avgPP = (sumPP / entry.length).toFixed(2);
-      const sumP = entry.reduce((acc, p) => acc + p.Profit, 0);
+      const variance = entry.reduce((total, entry2) => total + entry2.variance, 0).toFixed(2);
+      const sumP = entry.reduce((acc, p) => acc + p.profit, 0);
       monthlyAverages.push({
         "total": parseFloat(sumP),
         "average": parseFloat(avgPP),
+        "variance": parseFloat(variance),
         "dateLabel": key
       });
     }
     return monthlyAverages;
   }
   function getAverageProfitPercent(data) {
-    var total = 0;
-    data.map((e) => total += e.profitPercent);
-    return parseFloat((total / data.length).toFixed(2));
+    const sum = data.reduce((total, entry) => total += entry.profitPercent, 0);
+    return getAverage(sum, data.length);
+  }
+  function getAverageVariance(data) {
+    var sum = data.reduce((total, entry) => total += entry.variance, 0);
+    return getAverage(sum, data.length);
+  }
+  function getAverage(sum, total) {
+    const avg = sum / total;
+    return avg.toFixed(2);
   }
 
   // src/charts.js
   var profitCtx = document.getElementById("profitCtx");
   var profitCard = document.getElementById("profitCard");
-  var chart;
+  var profitChart;
+  var varianceCtx = document.getElementById("varianceCtx");
+  var varianceCard = document.getElementById("varianceCard");
   function buildCharts(data) {
     console.log("Build charts called");
-    const profitBI = getGroupedMonthlyProfitData(data);
+    const biData = getGroupedMonthlyIntelligenceData(data);
+    console.log(biData);
     const avgProfitPercent = getAverageProfitPercent(data);
-    chart = new Chart(profitCtx, getProfitBIConfiguration(profitBI));
+    const avgVariance = getAverageVariance(data);
+    profitChart = new Chart(profitCtx, getProfitChartConfiguration(biData));
     profitCard.innerText = avgProfitPercent + "%";
+    if (avgVariance > 0) {
+      varianceCard.innerText = "$" + avgVariance;
+      varianceCard.classList.add("text-success");
+    } else {
+      varianceCard.innerText = "-$" + avgVariance * -1;
+      varianceCard.classList.add("text-danger");
+    }
   }
-  function getProfitBIConfiguration(profitBI) {
-    if (chart) {
-      chart.destroy();
+  function getProfitChartConfiguration(biData) {
+    if (profitChart) {
+      profitChart.destroy();
     }
     return {
       type: "bar",
       data: {
-        labels: profitBI.map((e) => e.dateLabel),
+        labels: biData.map((e) => e.dateLabel),
         datasets: [
           {
             label: "Profit Percent",
-            data: profitBI.map((e) => e.average),
+            data: biData.map((e) => e.average),
             borderWidth: 1,
             yAxisID: "y-left"
           },
           {
             label: "Total Profit",
-            data: profitBI.map((e) => e.total),
+            data: biData.map((e) => e.total),
             borderWidth: 1,
             yAxisID: "y-right"
           }
