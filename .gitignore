@@ -13,6 +13,3 @@
 
 # NPM
 node_modules/
-
-# esbuild
-dist/
