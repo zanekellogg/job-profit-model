@@ -1,4 +1,4 @@
-import { getAverageProfitPercent, getAverageVariance, getGroupedMonthlyIntelligenceData } from "./data";
+import { getAverageProfitPercent, getAverageVariance, getGroupedMonthlyIntelligenceData, getLaborGroupings } from "./data";
 
 
 // Profit 
@@ -11,6 +11,14 @@ const varianceCtx = document.getElementById('varianceCtx');
 const varianceCard = document.getElementById('varianceCard');
 var varianceChart;
 
+// Labor
+const laborCtx = document.getElementById('laborCtx');
+const laborCard = document.getElementById('laborCard');
+const labor1 = document.getElementById('labor1');
+const labor2 = document.getElementById('labor2');
+const labor3 = document.getElementById('labor3');
+var laborChart;
+
 export function buildCharts(data) {
     console.log("Build charts called");
 
@@ -19,6 +27,7 @@ export function buildCharts(data) {
     console.log(biData);
     const avgProfitPercent = getAverageProfitPercent(data);
     const avgVariance = getAverageVariance(data);
+    const laborData = getLaborGroupings(data);
 
     // Profit Charts
     profitChart = new Chart(profitCtx, getProfitChartConfiguration(biData));
@@ -33,6 +42,25 @@ export function buildCharts(data) {
         varianceCard.classList.add('text-danger');
     }
     varianceChart = new Chart(varianceCtx, getVarianceChartConfiguration(biData));
+
+    // Labor Charts
+    laborChart = new Chart(laborCtx, getLaborChartConfiguration(biData));
+    labor1.innerHTML = "<strong>" + laborData.avgs[0].avg + "%</strong> " + laborData.avgs[0].size + " (" + getLaborRangeLabel(laborData.avgs[0].size, laborData.highestLabor) + ")";
+    labor2.innerHTML = "<strong>" + laborData.avgs[1].avg + "%</strong> " + laborData.avgs[1].size + " (" + getLaborRangeLabel(laborData.avgs[1].size, laborData.highestLabor) + ")";
+    labor3.innerHTML = "<strong>" + laborData.avgs[2].avg + "%</strong> " + laborData.avgs[2].size + " (" + getLaborRangeLabel(laborData.avgs[2].size, laborData.highestLabor) + ")";
+}
+
+function getLaborRangeLabel(size, highestLabor)
+{
+    const divider = highestLabor / 3;
+    if (size == "Small")
+    {
+        return "Less than $" + divider.toFixed(2);
+    } else if (size == "Medium") {
+        return "$" + (divider + 1).toFixed(2) + " - $" + (divider * 2).toFixed(2);
+    } else {
+        return "$" + ((divider * 2) + 1).toFixed(2) + " - $" + (divider * 3).toFixed(2);
+    }
 }
 
 function getProfitChartConfiguration(biData)
@@ -107,6 +135,49 @@ function getVarianceChartConfiguration(biData)
     };
 }
 
+function getLaborChartConfiguration(biData)
+{
+    if (laborChart) { laborChart.destroy(); }
+
+    return {
+        type: 'line',
+        data: {
+            labels: biData.map(e => e.dateLabel),
+            datasets: [{
+                label: 'Small',
+                data: biData.map(e => e.smallLaborAvgProfit),
+                borderWidth: 1,
+                yAxisID: 'y-left',
+                spanGaps: true
+            },
+            {
+                label: 'Medium',
+                data: biData.map(e => e.mediumLaborAvgProfit),
+                borderWidth: 1,
+                yAxisID: 'y-left',
+                spanGaps: true
+            },
+            {
+                label: 'Large',
+                data: biData.map(e => e.largeLaborAvgProfit),
+                borderWidth: 1,
+                yAxisID: 'y-left',
+                spanGaps: true
+            }]
+        },
+        options: {
+            scales: {
+                'y-left': {
+                    position: 'left',
+                    title: { display: true, text: '???'},
+                    beginAtZero: true,
+                    ticks: percentScaleTickConfig()
+                }
+            }
+        }
+    };
+}
+
 function percentScaleTickConfig()
 {
     return {
@@ -124,16 +195,3 @@ function dollarScaleTickConfig()
         }
     };
 }
-
-// function reduceDistinct(data, field)
-// {
-//     const distinct = [];
-//     data.forEach(entry => {
-//         if (!distinct.includes(entry[field]))
-//         {
-//             distinct.push(entry[field]);
-//         }
-//     });
-
-//     return distinct;
-// }

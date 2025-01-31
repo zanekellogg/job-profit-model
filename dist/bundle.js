@@ -225,6 +225,26 @@ var App = (() => {
     var sum = getSum(data, "variance");
     return getAverage(sum, data.length);
   }
+  function getLaborGroupings(data) {
+    console.log(data);
+    const smalls = data.filter((e) => e.laborGroup == "S");
+    const smallAvg = getAverage(getSum(smalls, "profitPercent"), smalls.length);
+    const meds = data.filter((e) => e.laborGroup == "M");
+    const medAvg = getAverage(getSum(meds, "profitPercent"), meds.length);
+    const larges = data.filter((e) => e.laborGroup == "L");
+    const largeAvg = getAverage(getSum(larges, "profitPercent"), larges.length);
+    const highestLabor = data.reduce((current, entry2) => entry2.labor > current ? entry2.labor : current, 0);
+    var avgsArray = [
+      { size: "Small", avg: smallAvg },
+      { size: "Medium", avg: medAvg },
+      { size: "Large", avg: largeAvg }
+    ];
+    avgsArray.sort((a, b) => b.avg - a.avg);
+    return {
+      avgs: avgsArray,
+      highestLabor
+    };
+  }
   function getSum(data, field) {
     if (data == 0) {
       return 0;
@@ -246,12 +266,19 @@ var App = (() => {
   var varianceCtx = document.getElementById("varianceCtx");
   var varianceCard = document.getElementById("varianceCard");
   var varianceChart;
+  var laborCtx = document.getElementById("laborCtx");
+  var laborCard = document.getElementById("laborCard");
+  var labor1 = document.getElementById("labor1");
+  var labor2 = document.getElementById("labor2");
+  var labor3 = document.getElementById("labor3");
+  var laborChart;
   function buildCharts(data) {
     console.log("Build charts called");
     const biData = getGroupedMonthlyIntelligenceData(data);
     console.log(biData);
     const avgProfitPercent = getAverageProfitPercent(data);
     const avgVariance = getAverageVariance(data);
+    const laborData = getLaborGroupings(data);
     profitChart = new Chart(profitCtx, getProfitChartConfiguration(biData));
     profitCard.innerText = avgProfitPercent + "%";
     if (avgVariance > 0) {
@@ -262,6 +289,20 @@ var App = (() => {
       varianceCard.classList.add("text-danger");
     }
     varianceChart = new Chart(varianceCtx, getVarianceChartConfiguration(biData));
+    laborChart = new Chart(laborCtx, getLaborChartConfiguration(biData));
+    labor1.innerHTML = "<strong>" + laborData.avgs[0].avg + "%</strong> " + laborData.avgs[0].size + " (" + getLaborRangeLabel(laborData.avgs[0].size, laborData.highestLabor) + ")";
+    labor2.innerHTML = "<strong>" + laborData.avgs[1].avg + "%</strong> " + laborData.avgs[1].size + " (" + getLaborRangeLabel(laborData.avgs[1].size, laborData.highestLabor) + ")";
+    labor3.innerHTML = "<strong>" + laborData.avgs[2].avg + "%</strong> " + laborData.avgs[2].size + " (" + getLaborRangeLabel(laborData.avgs[2].size, laborData.highestLabor) + ")";
+  }
+  function getLaborRangeLabel(size, highestLabor) {
+    const divider = highestLabor / 3;
+    if (size == "Small") {
+      return "Less than $" + divider.toFixed(2);
+    } else if (size == "Medium") {
+      return "$" + (divider + 1).toFixed(2) + " - $" + (divider * 2).toFixed(2);
+    } else {
+      return "$" + (divider * 2 + 1).toFixed(2) + " - $" + (divider * 3).toFixed(2);
+    }
   }
   function getProfitChartConfiguration(biData) {
     if (profitChart) {
@@ -331,6 +372,50 @@ var App = (() => {
               // Bold zero line
               // lineWidth: (context) => context.tick.value === 0 ? 2 : 1 // Thicker zero line
             }
+          }
+        }
+      }
+    };
+  }
+  function getLaborChartConfiguration(biData) {
+    if (laborChart) {
+      laborChart.destroy();
+    }
+    return {
+      type: "line",
+      data: {
+        labels: biData.map((e) => e.dateLabel),
+        datasets: [
+          {
+            label: "Small",
+            data: biData.map((e) => e.smallLaborAvgProfit),
+            borderWidth: 1,
+            yAxisID: "y-left",
+            spanGaps: true
+          },
+          {
+            label: "Medium",
+            data: biData.map((e) => e.mediumLaborAvgProfit),
+            borderWidth: 1,
+            yAxisID: "y-left",
+            spanGaps: true
+          },
+          {
+            label: "Large",
+            data: biData.map((e) => e.largeLaborAvgProfit),
+            borderWidth: 1,
+            yAxisID: "y-left",
+            spanGaps: true
+          }
+        ]
+      },
+      options: {
+        scales: {
+          "y-left": {
+            position: "left",
+            title: { display: true, text: "???" },
+            beginAtZero: true,
+            ticks: percentScaleTickConfig()
           }
         }
       }

@@ -140,6 +140,30 @@ export function getAverageVariance(data)
     return getAverage(sum, data.length);
 }
 
+export function getLaborGroupings(data)
+{
+    console.log(data);
+    const smalls = data.filter(e => e.laborGroup == 'S');
+    const smallAvg = getAverage(getSum(smalls, 'profitPercent'), smalls.length);
+    const meds = data.filter(e => e.laborGroup == 'M');
+    const medAvg = getAverage(getSum(meds, 'profitPercent'), meds.length);
+    const larges = data.filter(e => e.laborGroup == 'L');
+    const largeAvg = getAverage(getSum(larges, 'profitPercent'), larges.length);
+    const highestLabor = data.reduce((current, entry) => (entry.labor > current) ? entry.labor : current, 0);
+
+    var avgsArray = [
+        { size: 'Small', avg: smallAvg },
+        { size: 'Medium', avg: medAvg },
+        { size: 'Large', avg: largeAvg }
+    ];
+    avgsArray.sort((a,b) => b.avg - a.avg);
+
+    return {
+        avgs: avgsArray,
+        highestLabor: highestLabor
+    }
+}
+
 function getSum(data, field)
 {
     if (data == 0)
