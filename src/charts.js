@@ -75,13 +75,17 @@ function getProfitChartConfiguration(biData)
                 label: 'Profit Percent',
                 data: biData.map(e => e.average),
                 borderWidth: 1,
-                yAxisID: 'y-left'
+                yAxisID: 'y-left',
+                backgroundColor: 'rgb(88, 0, 165)',
+                borderWidth: 0
             },
             {
                 label: 'Total Profit',
                 data: biData.map(e => e.total),
                 borderWidth: 1,
-                yAxisID: 'y-right'
+                yAxisID: 'y-right',
+                backgroundColor: 'rgb(23, 253, 164)',
+                borderWidth: 0
             }]
         },
         options: {
@@ -114,8 +118,10 @@ function getVarianceChartConfiguration(biData)
             datasets: [{
                 label: 'Total Estimate vs Actual',
                 data: biData.map(e => e.variance),
-                borderWidth: 1,
-                yAxisID: 'y-left'
+                yAxisID: 'y-left',
+                backgroundColor: 'rgb(0, 255, 255)',
+                borderColor: 'rgb(0, 255, 255)',
+                borderWidth: 1.5
             }]
         },
         options: {
@@ -148,21 +154,30 @@ function getLaborChartConfiguration(biData)
                 data: biData.map(e => e.smallLaborAvgProfit),
                 borderWidth: 1,
                 yAxisID: 'y-left',
-                spanGaps: true
+                spanGaps: true,
+                // backgroundColor: 'rgb(0, 255, 255)',
+                // borderColor: 'rgb(0, 255, 255)',
+                // borderWidth: 1.5
             },
             {
                 label: 'Medium',
                 data: biData.map(e => e.mediumLaborAvgProfit),
                 borderWidth: 1,
                 yAxisID: 'y-left',
-                spanGaps: true
+                spanGaps: true,
+                // backgroundColor: 'rgb(88, 0, 165)',
+                // borderColor: 'rgb(88, 0, 165)',
+                // borderWidth: 1.5
             },
             {
                 label: 'Large',
                 data: biData.map(e => e.largeLaborAvgProfit),
                 borderWidth: 1,
                 yAxisID: 'y-left',
-                spanGaps: true
+                spanGaps: true,
+                // backgroundColor: 'rgb(57, 255, 20)',
+                // borderColor: 'rgb(57, 255, 20)',
+                // borderWidth: 1.5
             }]
         },
         options: {

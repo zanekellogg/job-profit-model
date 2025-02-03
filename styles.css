@@ -1,0 +1,89 @@
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-body {
+    flex-grow: 1;
+    /* Allows content to expand and equalize card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card canvas {
+    object-fit: cover;
+    height: 200px;
+}
+
+.card-bold-text {
+    font-weight: bold;
+    color:rgb(0, 40, 85);
+}
+
+.card-subtext {
+    font-size: 1.25rem;
+}
+
+.description-box-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(0, 40, 85);
+}
+
+.description-box {
+    background-color: rgb(213, 242, 228);
+    padding: 20px;
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* Custom style for our navbar background and text */
+.navbar-custom {
+    background-color: rgb(0, 40, 85);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom {
+    color: #fff;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .navbar-brand:hover,
+.navbar-custom {
+    color: #ccc;
+}
+
+/* Custom pill button style */
+.btn-custom-white {
+    background-color: #fff;
+    /* white background */
+    color: rgb(0, 40, 85);
+    /* navy text matching the navbar */
+    border: 1px solid rgb(0, 40, 85);
+    /* navy border for definition */
+}
+
+/* Optional: Hover state for better user feedback */
+.btn-custom-white:hover {
+    background-color: rgb(204, 212, 221);
+    color: rgb(0, 40, 85);
+    border: 1px solid rgb(0, 40, 85);
+}
+
+/* Custom style for the highlighted text */
+.highlight {
+    background-color: rgb(23, 253, 164);
+    padding: 0.2em 0.4em;
+}
+
+body {
+    background-color: rgb(242, 241, 237);
+}

@@ -317,13 +317,17 @@ var App = (() => {
             label: "Profit Percent",
             data: biData.map((e) => e.average),
             borderWidth: 1,
-            yAxisID: "y-left"
+            yAxisID: "y-left",
+            backgroundColor: "rgb(88, 0, 165)",
+            borderWidth: 0
           },
           {
             label: "Total Profit",
             data: biData.map((e) => e.total),
             borderWidth: 1,
-            yAxisID: "y-right"
+            yAxisID: "y-right",
+            backgroundColor: "rgb(23, 253, 164)",
+            borderWidth: 0
           }
         ]
       },
@@ -356,8 +360,10 @@ var App = (() => {
         datasets: [{
           label: "Total Estimate vs Actual",
           data: biData.map((e) => e.variance),
-          borderWidth: 1,
-          yAxisID: "y-left"
+          yAxisID: "y-left",
+          backgroundColor: "rgb(0, 255, 255)",
+          borderColor: "rgb(0, 255, 255)",
+          borderWidth: 1.5
         }]
       },
       options: {
@@ -392,6 +398,9 @@ var App = (() => {
             borderWidth: 1,
             yAxisID: "y-left",
             spanGaps: true
+            // backgroundColor: 'rgb(0, 255, 255)',
+            // borderColor: 'rgb(0, 255, 255)',
+            // borderWidth: 1.5
           },
           {
             label: "Medium",
@@ -399,6 +408,9 @@ var App = (() => {
             borderWidth: 1,
             yAxisID: "y-left",
             spanGaps: true
+            // backgroundColor: 'rgb(88, 0, 165)',
+            // borderColor: 'rgb(88, 0, 165)',
+            // borderWidth: 1.5
           },
           {
             label: "Large",
@@ -406,6 +418,9 @@ var App = (() => {
             borderWidth: 1,
             yAxisID: "y-left",
             spanGaps: true
+            // backgroundColor: 'rgb(57, 255, 20)',
+            // borderColor: 'rgb(57, 255, 20)',
+            // borderWidth: 1.5
           }
         ]
       },
