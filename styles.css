@@ -94,3 +94,30 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
 }
+
+/* Clickable Header */
+.clickable-header {
+    cursor: pointer;
+    /* Optionally add some spacing and hover effect */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.clickable-header:hover {
+    color: #007bff;
+    /* Change text color on hover */
+}
+
+/* Rotate the icon when the collapse is open */
+.rotate {
+    transition: transform 0.3s;
+}
+
+.rotate.collapsed {
+    transform: rotate(0deg);
+}
+
+.rotate:not(.collapsed) {
+    transform: rotate(180deg);
+}

@@ -190,7 +190,7 @@ function getLaborChartConfiguration(biData)
             scales: {
                 'y-left': {
                     position: 'left',
-                    title: { display: true, text: '???'},
+                    title: { display: true, text: 'Profit %'},
                     beginAtZero: true,
                     ticks: percentScaleTickConfig()
                 }
