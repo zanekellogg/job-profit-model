@@ -1,4 +1,4 @@
-import { getAverageProfitPercent, getAverageVariance, getGroupedMonthlyIntelligenceData, getLaborGroupings } from "./data";
+import { getAverageProfitPercent, getAverageVariance, getGroupedMonthlyIntelligenceData, getLaborGroupings, sumArray } from "./data";
 
 
 // Profit 
@@ -17,14 +17,18 @@ const laborCard = document.getElementById('laborCard');
 const labor1 = document.getElementById('labor1');
 const labor2 = document.getElementById('labor2');
 const labor3 = document.getElementById('labor3');
+const laborProfitCtx = document.getElementById('laborProfitCtx');
+
 var laborChart;
+var laborProfitChart;
 
 export function buildCharts(data) {
     console.log("Build charts called");
 
     // Get Data
     const biData = getGroupedMonthlyIntelligenceData(data);
-    console.log(biData);
+    console.log("BI Data", biData);
+
     const avgProfitPercent = getAverageProfitPercent(data);
     const avgVariance = getAverageVariance(data);
     const laborData = getLaborGroupings(data);
@@ -45,9 +49,13 @@ export function buildCharts(data) {
 
     // Labor Charts
     laborChart = new Chart(laborCtx, getLaborChartConfiguration(biData));
-    labor1.innerHTML = "<strong>" + laborData.avgs[0].avg + "%</strong> " + laborData.avgs[0].size + " (" + getLaborRangeLabel(laborData.avgs[0].size, laborData.highestLabor) + ")";
-    labor2.innerHTML = "<strong>" + laborData.avgs[1].avg + "%</strong> " + laborData.avgs[1].size + " (" + getLaborRangeLabel(laborData.avgs[1].size, laborData.highestLabor) + ")";
-    labor3.innerHTML = "<strong>" + laborData.avgs[2].avg + "%</strong> " + laborData.avgs[2].size + " (" + getLaborRangeLabel(laborData.avgs[2].size, laborData.highestLabor) + ")";
+
+    const smallLaborSum = sumArray(biData.map(e => e.smallLaborProfit));
+    const mediumLaborSum = sumArray(biData.map(e => e.mediumLaborProfit));
+    const largeLaborSum = sumArray(biData.map(e => e.largeLaborProfit));
+    console.log(smallLaborSum, mediumLaborSum, largeLaborSum);
+
+    laborProfitChart = new Chart(laborProfitCtx, getLaborProfitChartConfiguration(smallLaborSum, mediumLaborSum, largeLaborSum));
 }
 
 function getLaborRangeLabel(size, highestLabor)
@@ -74,7 +82,6 @@ function getProfitChartConfiguration(biData)
             datasets: [{
                 label: 'Profit Percent',
                 data: biData.map(e => e.average),
-                borderWidth: 1,
                 yAxisID: 'y-left',
                 backgroundColor: 'rgb(88, 0, 165)',
                 borderWidth: 0
@@ -82,7 +89,6 @@ function getProfitChartConfiguration(biData)
             {
                 label: 'Total Profit',
                 data: biData.map(e => e.total),
-                borderWidth: 1,
                 yAxisID: 'y-right',
                 backgroundColor: 'rgb(23, 253, 164)',
                 borderWidth: 0
@@ -190,6 +196,26 @@ function getLaborChartConfiguration(biData)
                 }
             }
         }
+    };
+}
+
+function getLaborProfitChartConfiguration(smallProfit, medProfit, largeProfit)
+{
+    if (laborProfitChart) { laborProfitChart.destroy(); }
+
+    return {
+        type: 'doughnut',
+        data: {
+            labels: [
+              'Small',
+              'Medium',
+              'Large'
+            ],
+            datasets: [{
+              data: [smallProfit, medProfit, largeProfit],
+              hoverOffset: 4
+            }]
+          }
     };
 }
 

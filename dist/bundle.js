@@ -128,15 +128,15 @@ var App = (() => {
       highestLabor = labor > highestLabor ? labor : highestLabor;
     });
     const laborDivider = highestLabor / 3;
-    return data.map((entry2) => {
-      const jobDateUtc = Date.parse(entry2["Job Date"]);
+    return data.map((entry) => {
+      const jobDateUtc = Date.parse(entry["Job Date"]);
       const jobDate = new Date(jobDateUtc);
-      const description = entry2.Description;
-      const labor = parseFloat(entry2["Labor"] || 0);
-      const materials = parseFloat(entry2["Materials"] || 0);
-      const overhead = parseFloat(entry2["Overhead"] || 0);
-      const amountRecieved = parseFloat(entry2["Amount Received"] || 0);
-      const originalEstimate = parseFloat(entry2["Original Estimate"] || 0);
+      const description = entry.Description;
+      const labor = parseFloat(entry["Labor"] || 0);
+      const materials = parseFloat(entry["Materials"] || 0);
+      const overhead = parseFloat(entry["Overhead"] || 0);
+      const amountRecieved = parseFloat(entry["Amount Received"] || 0);
+      const originalEstimate = parseFloat(entry["Original Estimate"] || 0);
       var profit = amountRecieved - labor - materials - overhead;
       profit = parseFloat(profit.toFixed(2));
       var profitPercent = profit / amountRecieved * 100;
@@ -178,16 +178,16 @@ var App = (() => {
   }
   function getGroupedMonthlyIntelligenceData(data) {
     const groupedData = {};
-    data.forEach((entry2) => {
-      const dateLabel = entry2.dateLabel;
+    data.forEach((entry) => {
+      const dateLabel = entry.dateLabel;
       if (!groupedData[dateLabel]) {
         groupedData[dateLabel] = [];
       }
       groupedData[dateLabel].push({
-        profitPercent: entry2.profitPercent,
-        profit: entry2.profit,
-        variance: entry2.variance,
-        laborGroup: entry2.laborGroup
+        profitPercent: entry.profitPercent,
+        profit: entry.profit,
+        variance: entry.variance,
+        laborGroup: entry.laborGroup
       });
     });
     const monthlyAverages = [];
@@ -195,15 +195,18 @@ var App = (() => {
       const entries = groupedData[key];
       const avgPP = getAverage(getSum(entries, "profitPercent"), entries.length);
       const variance = getSum(entries, "variance").toFixed(2);
-      const smallEntries2 = entries.filter((item) => item.laborGroup == "S");
-      const smallSumPP = getSum(smallEntries2, "profitPercent");
-      const smallAvgPP = getAverage(smallSumPP, smallEntries2.length);
+      const smallEntries = entries.filter((item) => item.laborGroup == "S");
+      const smallSumPP = getSum(smallEntries, "profitPercent");
+      const smallAvgPP = getAverage(smallSumPP, smallEntries.length);
       const medEntries = entries.filter((item) => item.laborGroup == "M");
       const medSumPP = getSum(medEntries, "profitPercent");
       const medAvgPP = getAverage(medSumPP, medEntries.length);
       const largeEntries = entries.filter((item) => item.laborGroup == "L");
       const largeSumPP = getSum(largeEntries, "profitPercent");
       const largeAvgPP = getAverage(largeSumPP, largeEntries.length);
+      const smallProfit = getSum(smallEntries, "profit");
+      const medProfit = getSum(medEntries, "profit");
+      const largeProfit = getSum(largeEntries, "profit");
       const sumP = getSum(entries, "profit");
       monthlyAverages.push({
         "total": sumP,
@@ -212,6 +215,9 @@ var App = (() => {
         "smallLaborAvgProfit": smallAvgPP,
         "mediumLaborAvgProfit": medAvgPP,
         "largeLaborAvgProfit": largeAvgPP,
+        "smallLaborProfit": smallProfit,
+        "mediumLaborProfit": medProfit,
+        "largeLaborProfit": largeProfit,
         "dateLabel": key
       });
     }
@@ -226,14 +232,13 @@ var App = (() => {
     return getAverage(sum, data.length);
   }
   function getLaborGroupings(data) {
-    console.log(data);
     const smalls = data.filter((e) => e.laborGroup == "S");
     const smallAvg = getAverage(getSum(smalls, "profitPercent"), smalls.length);
     const meds = data.filter((e) => e.laborGroup == "M");
     const medAvg = getAverage(getSum(meds, "profitPercent"), meds.length);
     const larges = data.filter((e) => e.laborGroup == "L");
     const largeAvg = getAverage(getSum(larges, "profitPercent"), larges.length);
-    const highestLabor = data.reduce((current, entry2) => entry2.labor > current ? entry2.labor : current, 0);
+    const highestLabor = data.reduce((current, entry) => entry.labor > current ? entry.labor : current, 0);
     var avgsArray = [
       { size: "Small", avg: smallAvg },
       { size: "Medium", avg: medAvg },
@@ -252,7 +257,10 @@ var App = (() => {
     if (data.length < 2) {
       return parseFloat(data[0][field]);
     }
-    return data.reduce((total, entry2) => total += entry2[field], 0);
+    return parseFloat(data.reduce((total, entry) => total += entry[field], 0));
+  }
+  function sumArray(array) {
+    return array.reduce((a, b) => a + b, 0);
   }
   function getAverage(sum, total) {
     const avg = sum / total;
@@ -271,11 +279,13 @@ var App = (() => {
   var labor1 = document.getElementById("labor1");
   var labor2 = document.getElementById("labor2");
   var labor3 = document.getElementById("labor3");
+  var laborProfitCtx = document.getElementById("laborProfitCtx");
   var laborChart;
+  var laborProfitChart;
   function buildCharts(data) {
     console.log("Build charts called");
     const biData = getGroupedMonthlyIntelligenceData(data);
-    console.log(biData);
+    console.log("BI Data", biData);
     const avgProfitPercent = getAverageProfitPercent(data);
     const avgVariance = getAverageVariance(data);
     const laborData = getLaborGroupings(data);
@@ -290,19 +300,11 @@ var App = (() => {
     }
     varianceChart = new Chart(varianceCtx, getVarianceChartConfiguration(biData));
     laborChart = new Chart(laborCtx, getLaborChartConfiguration(biData));
-    labor1.innerHTML = "<strong>" + laborData.avgs[0].avg + "%</strong> " + laborData.avgs[0].size + " (" + getLaborRangeLabel(laborData.avgs[0].size, laborData.highestLabor) + ")";
-    labor2.innerHTML = "<strong>" + laborData.avgs[1].avg + "%</strong> " + laborData.avgs[1].size + " (" + getLaborRangeLabel(laborData.avgs[1].size, laborData.highestLabor) + ")";
-    labor3.innerHTML = "<strong>" + laborData.avgs[2].avg + "%</strong> " + laborData.avgs[2].size + " (" + getLaborRangeLabel(laborData.avgs[2].size, laborData.highestLabor) + ")";
-  }
-  function getLaborRangeLabel(size, highestLabor) {
-    const divider = highestLabor / 3;
-    if (size == "Small") {
-      return "Less than $" + divider.toFixed(2);
-    } else if (size == "Medium") {
-      return "$" + (divider + 1).toFixed(2) + " - $" + (divider * 2).toFixed(2);
-    } else {
-      return "$" + (divider * 2 + 1).toFixed(2) + " - $" + (divider * 3).toFixed(2);
-    }
+    const smallLaborSum = sumArray(biData.map((e) => e.smallLaborProfit));
+    const mediumLaborSum = sumArray(biData.map((e) => e.mediumLaborProfit));
+    const largeLaborSum = sumArray(biData.map((e) => e.largeLaborProfit));
+    console.log(smallLaborSum, mediumLaborSum, largeLaborSum);
+    laborProfitChart = new Chart(laborProfitCtx, getLaborProfitChartConfiguration(smallLaborSum, mediumLaborSum, largeLaborSum));
   }
   function getProfitChartConfiguration(biData) {
     if (profitChart) {
@@ -316,7 +318,6 @@ var App = (() => {
           {
             label: "Profit Percent",
             data: biData.map((e) => e.average),
-            borderWidth: 1,
             yAxisID: "y-left",
             backgroundColor: "rgb(88, 0, 165)",
             borderWidth: 0
@@ -324,7 +325,6 @@ var App = (() => {
           {
             label: "Total Profit",
             data: biData.map((e) => e.total),
-            borderWidth: 1,
             yAxisID: "y-right",
             backgroundColor: "rgb(23, 253, 164)",
             borderWidth: 0
@@ -433,6 +433,25 @@ var App = (() => {
             ticks: percentScaleTickConfig()
           }
         }
+      }
+    };
+  }
+  function getLaborProfitChartConfiguration(smallProfit, medProfit, largeProfit) {
+    if (laborProfitChart) {
+      laborProfitChart.destroy();
+    }
+    return {
+      type: "doughnut",
+      data: {
+        labels: [
+          "Small",
+          "Medium",
+          "Large"
+        ],
+        datasets: [{
+          data: [smallProfit, medProfit, largeProfit],
+          hoverOffset: 4
+        }]
       }
     };
   }

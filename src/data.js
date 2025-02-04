@@ -111,6 +111,10 @@ export function getGroupedMonthlyIntelligenceData(data)
         const largeSumPP = getSum(largeEntries, 'profitPercent');
         const largeAvgPP = getAverage(largeSumPP, largeEntries.length);
 
+        const smallProfit = getSum(smallEntries, 'profit');
+        const medProfit = getSum(medEntries, 'profit');
+        const largeProfit = getSum(largeEntries, 'profit');
+
         // Calculate Sum Profit
         const sumP = getSum(entries, 'profit');
 
@@ -121,6 +125,9 @@ export function getGroupedMonthlyIntelligenceData(data)
             "smallLaborAvgProfit": smallAvgPP,
             "mediumLaborAvgProfit": medAvgPP,
             "largeLaborAvgProfit": largeAvgPP,
+            "smallLaborProfit": smallProfit,
+            "mediumLaborProfit": medProfit,
+            "largeLaborProfit": largeProfit,
             "dateLabel": key
         })
     }
@@ -142,7 +149,6 @@ export function getAverageVariance(data)
 
 export function getLaborGroupings(data)
 {
-    console.log(data);
     const smalls = data.filter(e => e.laborGroup == 'S');
     const smallAvg = getAverage(getSum(smalls, 'profitPercent'), smalls.length);
     const meds = data.filter(e => e.laborGroup == 'M');
@@ -176,18 +182,16 @@ function getSum(data, field)
         return parseFloat(data[0][field]);
     }
 
-    return data.reduce((total, entry) => total += entry[field], 0);
+    return parseFloat(data.reduce((total, entry) => total += entry[field], 0));
+}
+
+export function sumArray(array)
+{
+    return array.reduce((a, b) => a + b, 0);
 }
 
 function getAverage(sum, total)
 {
     const avg = sum / total;
     return avg.toFixed(2);
-}
-
-function getLaborGroupAverage(laborGroup)
-{
-    const entries = entry.filter(item => item.laborGroup == laborGroup);
-    const smallSumPP = smallEntries.reduce((acc, pp) => acc + pp.profitPercent, 0);
-    const smallAvgPP = (smallEntries.length > 0) ? (smallSumPP / smallEntries.length).toFixed(2) : 0;
 }

@@ -140,13 +140,17 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center display-6">
+                        <canvas id="laborProfitCtx"></canvas>
+                        <div class="card-body">
+                            <p class="card-subtext">Profit % By Labor Over Time</p>
+                        </div>
+
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center display-6 d-none">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" id="labor1"><strong>21%</strong> Large ($500 - $600 in labor)</li>
                                 <li class="list-group-item" id="labor2"><strong>15%</strong> Medium ($200 - $500 in labor)</li>
                                 <li class="list-group-item" id="labor3"><strong>10%</strong> Small (Less than $200 in labor)</li>
                             </ul>
-                            <!-- <div id="laborCard" class="card-bold-text">21%</div> -->
                             <div class="card-subtext">Profit Percent By Labor</div>
                         </div>
                     </div>
