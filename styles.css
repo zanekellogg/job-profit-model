@@ -24,7 +24,7 @@
 
 .card-bold-text {
     font-weight: bold;
-    color:rgb(0, 40, 85);
+    color: rgb(0, 40, 85);
 }
 
 .card-subtext {
@@ -55,10 +55,9 @@
     color: #fff;
 }
 
-.navbar-custom .nav-link:hover,
-.navbar-custom .navbar-brand:hover,
-.navbar-custom {
-    color: #ccc;
+.navbar-brand:hover {
+    color: #fff;
+    text-decoration: underline;
 }
 
 /* Custom pill button style */
@@ -69,6 +68,8 @@
     /* navy text matching the navbar */
     border: 1px solid rgb(0, 40, 85);
     /* navy border for definition */
+    font-size: 0.875rem;
+    padding: 10px 20px;
 }
 
 /* Optional: Hover state for better user feedback */
@@ -84,6 +85,10 @@
     padding: 0.2em 0.4em;
 }
 
+/* Main components */
 body {
     background-color: rgb(242, 241, 237);
+    font-family: "Plus Jakarta Sans", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
