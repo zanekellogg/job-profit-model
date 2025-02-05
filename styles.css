@@ -105,8 +105,7 @@ body {
 }
 
 .clickable-header:hover {
-    color: #007bff;
-    /* Change text color on hover */
+    text-decoration: underline;
 }
 
 /* Rotate the icon when the collapse is open */

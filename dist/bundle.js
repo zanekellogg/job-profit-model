@@ -275,10 +275,9 @@ var App = (() => {
   var varianceCard = document.getElementById("varianceCard");
   var varianceChart;
   var laborCtx = document.getElementById("laborCtx");
-  var laborCard = document.getElementById("laborCard");
-  var labor1 = document.getElementById("labor1");
-  var labor2 = document.getElementById("labor2");
-  var labor3 = document.getElementById("labor3");
+  var smallLaborRange = document.getElementById("smallLaborRange");
+  var mediumLaborRange = document.getElementById("mediumLaborRange");
+  var largeLaborRange = document.getElementById("largeLaborRange");
   var laborProfitCtx = document.getElementById("laborProfitCtx");
   var laborChart;
   var laborProfitChart;
@@ -303,8 +302,20 @@ var App = (() => {
     const smallLaborSum = sumArray(biData.map((e) => e.smallLaborProfit));
     const mediumLaborSum = sumArray(biData.map((e) => e.mediumLaborProfit));
     const largeLaborSum = sumArray(biData.map((e) => e.largeLaborProfit));
-    console.log(smallLaborSum, mediumLaborSum, largeLaborSum);
     laborProfitChart = new Chart(laborProfitCtx, getLaborProfitChartConfiguration(smallLaborSum, mediumLaborSum, largeLaborSum));
+    smallLaborRange.innerText = getLaborRangeLabel("Small", laborData.highestLabor);
+    mediumLaborRange.innerText = getLaborRangeLabel("Medium", laborData.highestLabor);
+    largeLaborRange.innerText = getLaborRangeLabel("Large", laborData.highestLabor);
+  }
+  function getLaborRangeLabel(size, highestLabor) {
+    const divider = highestLabor / 3;
+    if (size == "Small") {
+      return "$" + divider.toFixed(2);
+    } else if (size == "Medium") {
+      return "$" + (divider + 1).toFixed(2) + " - $" + (divider * 2).toFixed(2);
+    } else {
+      return "$" + (divider * 2 + 1).toFixed(2);
+    }
   }
   function getProfitChartConfiguration(biData) {
     if (profitChart) {
@@ -428,7 +439,7 @@ var App = (() => {
         scales: {
           "y-left": {
             position: "left",
-            title: { display: true, text: "???" },
+            title: { display: true, text: "Profit %" },
             beginAtZero: true,
             ticks: percentScaleTickConfig()
           }

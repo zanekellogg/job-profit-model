@@ -83,47 +83,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="description-box">
-
-                    
                         <!-- Clickable header (h5) to toggle the collapse -->
-                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#moreContent" aria-expanded="false"
-                            aria-controls="moreContent">
-                            // Understanding Profit Over Time
-                            <!-- Caret icon (Bootstrap Icon) -->
-                            <i class="bi bi-caret-down-fill rotate collapsed"></i>
+                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#profitContent"
+                            aria-expanded="false" aria-controls="profitContent">
+                            // Profit & Margins Over Time: Identifying Trends and Performance
+                            <i id="profitChevron" class="bi bi-chevron-down rotate collapsed"></i>
                         </h5>
                         <!-- Collapsible content -->
-                        <div class="collapse row justify-content-center mt-4" id="moreContent">
-                            <div class="col-md-6 ">
+                        <div class="collapse row justify-content-center mt-4" id="profitContent">
+                            <div class="col-md-9 text-start">
                                 <p>
-                                    The first graph visually tracks total <strong>profit percentage and profit over time</strong>, 
-                                    allowing you to spot trends in profitability. The second card highlights 
-                                    the <strong>average profit percentage</strong>, giving you a quick snapshot of overall 
-                                    performance. Together, these insights help you analyze trends, compare 
-                                    results to expectations, and make more informed business decisions.
+                                    The first graph displays total <strong>profit percentage and profit over time</strong>,
+                                    highlighting trends in profitability. The second card presents
+                                    the <strong>average profit percentage</strong>, providing a quick snapshot of overall
+                                    performance. Together, these insights enable <strong>trend analysis, comparison of 
+                                    results to expectations</strong>, and make more informed business decisions.
                                 </p>
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <!-- <div class="description-box">
-                        <h5 class="description-box-title" data-bs-toggle="collapse" data-bs-target="#moreContent" aria-expanded="false" aria-controls="moreContent">
-                            // Understanding Profit Over Time <i class="bi bi-caret-down-fill rotate collapsed"></i>
-                        </h5>
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-md-6 ">
-                                <p>
-                                    The first graph visually tracks total <strong>profit percentage and profit over time</strong>, 
-                                    allowing you to spot trends in profitability. The second card highlights 
-                                    the <strong>average profit percentage</strong>, giving you a quick snapshot of overall 
-                                    performance. Together, these insights help you analyze trends, compare 
-                                    results to expectations, and make more informed business decisions.
-                                </p>
-                            </div>
-                        </div>
-                    </div> -->
-                <!-- </div>
-            </div> -->
+                </div>
+            </div>
             <!-- End Profit Charts -->
 
             <!-- Variance Charts -->
@@ -149,13 +129,25 @@
             <div class="row">
                 <div class="col-12">
                     <div class="description-box">
-                        <h5 class="description-box-title">// Understanding Profit Over Time</h5>
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-md-6 ">
+                        <!-- Clickable header (h5) to toggle the collapse -->
+                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#varianceContent"
+                            aria-expanded="false" aria-controls="varianceContent">
+                            // Estimate vs. Actual: Measuring Variance and Accuracy
+                            <i id="varianceChevron" class="bi bi-chevron-down rotate collapsed"></i>
+                        </h5>
+                        <!-- Collapsible content -->
+                        <div class="collapse row justify-content-center mt-4" id="varianceContent">
+                            <div class="col-md-9 text-start">
                                 <p>
-                                    The first card provides a visual representation of profit percent and profit over time, while the second card highlights the
-                                    average profit percentage. This information helps in analyzing profitability trends and making informed
-                                    business decisions.
+                                    The first metric shows the total difference in value between estimated 
+                                    and actual revenue, known as <strong>variance</strong>, providing a quick 
+                                    view of how well projections align with reality.
+                                </p>
+                                <p>
+                                    The second graph tracks <strong>monthly variance over time</strong>, illustrating 
+                                    fluctuations between estimated and actual profits. The closer the 
+                                    values are to <strong>zero</strong>, the more accurate the estimates, aiding 
+                                    in refining forecasting and improving financial planning.
                                 </p>
                             </div>
                         </div>
@@ -180,15 +172,6 @@
                         <div class="card-body">
                             <p class="card-subtext">Profit By Labor</p>
                         </div>
-
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center display-6 d-none">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item" id="labor1"><strong>21%</strong> Large ($500 - $600 in labor)</li>
-                                <li class="list-group-item" id="labor2"><strong>15%</strong> Medium ($200 - $500 in labor)</li>
-                                <li class="list-group-item" id="labor3"><strong>10%</strong> Small (Less than $200 in labor)</li>
-                            </ul>
-                            <div class="card-subtext">Profit Percent By Labor</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -196,13 +179,36 @@
             <div class="row mt-1">
                 <div class="col-12">
                     <div class="description-box">
-                        <h5 class="description-box-title">// Understanding Profit Over Time</h5>
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-md-6 ">
+                        <!-- Clickable header (h5) to toggle the collapse -->
+                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#laborContent"
+                            aria-expanded="false" aria-controls="laborContent">
+                            // Profit by Project Size: Tracking Trends and Total Impact
+                            <i id="laborChevron" class="bi bi-chevron-down rotate collapsed"></i>
+                        </h5>
+                        <!-- Collapsible content -->
+                        <div class="collapse row justify-content-center mt-4" id="laborContent">
+                            <div class="col-md-9 text-start">
                                 <p>
-                                    The first card provides a visual representation of profit percent and profit over time, while the second card highlights the
-                                    average profit percentage. This information helps in analyzing profitability trends and making informed
-                                    business decisions.
+                                    Projects are grouped into <strong>small, medium, and large</strong> based on labor costs, allowing 
+                                    for a clearer analysis of profitability by project size.                                    
+                                </p>
+                                <p>
+                                    The first graph tracks <strong>average profit percentage</strong> by group over time, revealing 
+                                    trends in profitability across different project sizes. The second graph, a pie chart, 
+                                    displays <strong>total profit by group</strong>, highlighting which project size contributes the 
+                                    most to overall profitability.
+                                </p>
+                                <p>
+                                    By analyzing these trends, businesses can <strong>identify the most profitable project sizes and 
+                                    adjust strategies to maximize returns</strong>.
+                                </p>
+                                <p>
+                                    <strong>Project Grouping Ranges:</strong>
+                                    <ul>
+                                        <li><strong>Small Projects: </strong>Labor cost under <span id="smallLaborRange">$X</span></li>
+                                        <li><strong>Medium Projects: </strong>Labor cost between <span id="mediumLaborRange">$X-$Y</span></li>
+                                        <li><strong>Large Projects: </strong>Labor cost above <span id="largeLaborRange">$X</span></li>
+                                    </ul>
                                 </p>
                             </div>
                         </div>
@@ -224,13 +230,28 @@
             launch();
         </script>
         <script>
-            // Optional: Toggle the 'collapsed' class on the icon based on the collapse state
-            const collapseElement = document.getElementById('moreContent');
-            collapseElement.addEventListener('show.bs.collapse', function () {
-                document.querySelector('.rotate').classList.remove('collapsed');
+            const profitContent = document.getElementById('profitContent');
+            profitContent.addEventListener('show.bs.collapse', function () {
+                document.querySelector('#profitChevron.rotate').classList.remove('collapsed');
             });
-            collapseElement.addEventListener('hide.bs.collapse', function () {
-                document.querySelector('.rotate').classList.add('collapsed');
+            profitContent.addEventListener('hide.bs.collapse', function () {
+                document.querySelector('#profitChevron.rotate').classList.add('collapsed');
+            });
+
+            const varianceContent = document.getElementById('varianceContent');
+            varianceContent.addEventListener('show.bs.collapse', function () {
+                document.querySelector('#varianceChevron.rotate').classList.remove('collapsed');
+            });
+            varianceContent.addEventListener('hide.bs.collapse', function () {
+                document.querySelector('#varianceChevron.rotate').classList.add('collapsed');
+            });
+
+            const laborContent = document.getElementById('laborContent');
+            laborContent.addEventListener('show.bs.collapse', function () {
+                document.querySelector('#laborChevron.rotate').classList.remove('collapsed');
+            });
+            laborContent.addEventListener('hide.bs.collapse', function () {
+                document.querySelector('#laborChevron.rotate').classList.add('collapsed');
             });
         </script>
     </body>

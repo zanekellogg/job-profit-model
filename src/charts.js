@@ -13,10 +13,9 @@ var varianceChart;
 
 // Labor
 const laborCtx = document.getElementById('laborCtx');
-const laborCard = document.getElementById('laborCard');
-const labor1 = document.getElementById('labor1');
-const labor2 = document.getElementById('labor2');
-const labor3 = document.getElementById('labor3');
+const smallLaborRange = document.getElementById('smallLaborRange');
+const mediumLaborRange = document.getElementById('mediumLaborRange');
+const largeLaborRange = document.getElementById('largeLaborRange');
 const laborProfitCtx = document.getElementById('laborProfitCtx');
 
 var laborChart;
@@ -49,13 +48,15 @@ export function buildCharts(data) {
 
     // Labor Charts
     laborChart = new Chart(laborCtx, getLaborChartConfiguration(biData));
-
     const smallLaborSum = sumArray(biData.map(e => e.smallLaborProfit));
     const mediumLaborSum = sumArray(biData.map(e => e.mediumLaborProfit));
     const largeLaborSum = sumArray(biData.map(e => e.largeLaborProfit));
-    console.log(smallLaborSum, mediumLaborSum, largeLaborSum);
-
     laborProfitChart = new Chart(laborProfitCtx, getLaborProfitChartConfiguration(smallLaborSum, mediumLaborSum, largeLaborSum));
+
+    // Labor Groupings
+    smallLaborRange.innerText = getLaborRangeLabel("Small", laborData.highestLabor);
+    mediumLaborRange.innerText = getLaborRangeLabel("Medium", laborData.highestLabor);
+    largeLaborRange.innerText = getLaborRangeLabel("Large", laborData.highestLabor);
 }
 
 function getLaborRangeLabel(size, highestLabor)
@@ -63,11 +64,11 @@ function getLaborRangeLabel(size, highestLabor)
     const divider = highestLabor / 3;
     if (size == "Small")
     {
-        return "Less than $" + divider.toFixed(2);
+        return "$" + divider.toFixed(2);
     } else if (size == "Medium") {
         return "$" + (divider + 1).toFixed(2) + " - $" + (divider * 2).toFixed(2);
     } else {
-        return "$" + ((divider * 2) + 1).toFixed(2) + " - $" + (divider * 3).toFixed(2);
+        return "$" + ((divider * 2) + 1).toFixed(2);
     }
 }
 
