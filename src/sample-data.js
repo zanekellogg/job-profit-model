@@ -108,11 +108,47 @@ export const sampleData =
         "Original Estimate": "4500"
     },
     {
-        "Job Date": "2025-10-15",
+        "Job Date": "2025-01-20",
+        "Description": "Craft, Shed construction",
+        "Labor": "2300",
+        "Materials": "1500",
+        "Overhead": "250",
+        "Amount Received": "5000",
+        "Original Estimate": "4700"
+    },
+    {
+        "Job Date": "2025-01-28",
+        "Description": "Dickons, Wall repair",
+        "Labor": "200",
+        "Materials": "50",
+        "Overhead": "50",
+        "Amount Received": "350",
+        "Original Estimate": "250"
+    },
+    {
+        "Job Date": "2025-2-15",
         "Description": "Carter, Clog removal",
         "Labor": "500",
         "Materials": "45",
         "Overhead": "50",
         "Amount Received": "700",
         "Original Estimate": "700"
+    },
+    {
+        "Job Date": "2025-2-1",
+        "Description": "Edwards, Deck replacement",
+        "Labor": "2000",
+        "Materials": "1800",
+        "Overhead": "500",
+        "Amount Received": "5160",
+        "Original Estimate": "4500"
+    },
+    {
+        "Job Date": "2025-2-20",
+        "Description": "Franklin, Garden sprinkler",
+        "Labor": "1250",
+        "Materials": "750",
+        "Overhead": "100",
+        "Amount Received": "2352",
+        "Original Estimate": "2500"
     }];

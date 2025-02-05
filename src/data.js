@@ -8,8 +8,8 @@ export function transformData(data)
     const laborDivider = highestLabor / 3;
     
     return data.map(entry => {
-        const jobDateUtc = Date.parse(entry["Job Date"]);
-        const jobDate = new Date(jobDateUtc);
+        const jobDateUtc = new Date(entry["Job Date"]);
+        //const jobDate = new Date(jobDateUtc);
         const description = entry.Description;
         const labor = parseFloat(entry["Labor"] || 0);
         const materials = parseFloat(entry["Materials"] || 0);
@@ -34,10 +34,10 @@ export function transformData(data)
         variancePercent = parseFloat(variancePercent.toFixed(4));
 
         // Month & Year
-        const monthNumber = jobDate.getMonth() + 1;
-        const year = jobDate.getFullYear();
+        const monthNumber = jobDateUtc.getUTCMonth() + 1;
+        const year = jobDateUtc.getUTCFullYear();
         const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const monthLabel = monthLabels[jobDate.getMonth()];
+        const monthLabel = monthLabels[jobDateUtc.getUTCMonth()];
         const dateLabel = monthLabel + "-" + year;
 
         // Labor Group
@@ -49,7 +49,7 @@ export function transformData(data)
         }
 
         return {
-            jobDate,
+            jobDateUtc,
             description,
             labor,
             materials,

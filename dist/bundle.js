@@ -110,13 +110,49 @@ var App = (() => {
       "Original Estimate": "4500"
     },
     {
-      "Job Date": "2025-10-15",
+      "Job Date": "2025-01-20",
+      "Description": "Craft, Shed construction",
+      "Labor": "2300",
+      "Materials": "1500",
+      "Overhead": "250",
+      "Amount Received": "5000",
+      "Original Estimate": "4700"
+    },
+    {
+      "Job Date": "2025-01-28",
+      "Description": "Dickons, Wall repair",
+      "Labor": "200",
+      "Materials": "50",
+      "Overhead": "50",
+      "Amount Received": "350",
+      "Original Estimate": "250"
+    },
+    {
+      "Job Date": "2025-2-15",
       "Description": "Carter, Clog removal",
       "Labor": "500",
       "Materials": "45",
       "Overhead": "50",
       "Amount Received": "700",
       "Original Estimate": "700"
+    },
+    {
+      "Job Date": "2025-2-1",
+      "Description": "Edwards, Deck replacement",
+      "Labor": "2000",
+      "Materials": "1800",
+      "Overhead": "500",
+      "Amount Received": "5160",
+      "Original Estimate": "4500"
+    },
+    {
+      "Job Date": "2025-2-20",
+      "Description": "Franklin, Garden sprinkler",
+      "Labor": "1250",
+      "Materials": "750",
+      "Overhead": "100",
+      "Amount Received": "2352",
+      "Original Estimate": "2500"
     }
   ];
 
@@ -129,8 +165,7 @@ var App = (() => {
     });
     const laborDivider = highestLabor / 3;
     return data.map((entry) => {
-      const jobDateUtc = Date.parse(entry["Job Date"]);
-      const jobDate = new Date(jobDateUtc);
+      const jobDateUtc = new Date(entry["Job Date"]);
       const description = entry.Description;
       const labor = parseFloat(entry["Labor"] || 0);
       const materials = parseFloat(entry["Materials"] || 0);
@@ -145,10 +180,10 @@ var App = (() => {
       variance = parseFloat(variance.toFixed(2));
       var variancePercent = variance / originalEstimate * 100;
       variancePercent = parseFloat(variancePercent.toFixed(4));
-      const monthNumber = jobDate.getMonth() + 1;
-      const year = jobDate.getFullYear();
+      const monthNumber = jobDateUtc.getUTCMonth() + 1;
+      const year = jobDateUtc.getUTCFullYear();
       const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const monthLabel = monthLabels[jobDate.getMonth()];
+      const monthLabel = monthLabels[jobDateUtc.getUTCMonth()];
       const dateLabel = monthLabel + "-" + year;
       var laborGroup = "S";
       if (labor >= laborDivider && labor < laborDivider * 2) {
@@ -157,7 +192,7 @@ var App = (() => {
         laborGroup = "L";
       }
       return {
-        jobDate,
+        jobDateUtc,
         description,
         labor,
         materials,
