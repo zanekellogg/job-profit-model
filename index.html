@@ -50,26 +50,28 @@
             <div class="row align-items-center">
                 <!-- Left Column: Title and description -->
                 <div class="col-md-6">
-                    <h1 class="display-3">
-                        Owner's Dashboard by Blue Data Works
-                    </h1>
-                    <p class="lead">
-                        For project-based businesses, tracking profitability over time is crucial. This dashboard provides 
-                        a visual breakdown of profit and margins, showing trends and comparisons to estimates. It factors 
-                        in job size and labor costs, offering deeper insights into profitability. Use this data to refine 
-                        pricing, improve forecasting, and drive growth.
-                    </p>
-                    <p class="lead">
-                        Explore the dashboard, watch the walkthrough, or try it with your own data!
-                        <br />
-                        <a class="btn btn-custom-white rounded-pill btn-lg mt-2"
-                            href="#">
+                    <div class="d-flex flex-column align-items-center">
+                        <h1 class="display-3">
+                            Owner's Dashboard
+                        </h1>
+                        <p class="lead">
+                            For project-based businesses, tracking profitability over time is crucial. This dashboard provides
+                            a visual breakdown of profit and margins, showing trends and comparisons to estimates. It factors
+                            in job size and labor costs, offering deeper insights into profitability. Use this data to refine
+                            pricing, improve forecasting, and drive growth.
+                        </p>
+                        <p class="lead">
+                            Explore the dashboard, watch the walkthrough, or try it with your own data!
+                            <br />
+                
+                        </p>
+                        <a class="btn btn-custom-white rounded-pill btn-lg mt-2" href="#">
                             Upload Your Data
                         </a>
-                    </p>
+                    </div>
                 </div>
                 <!-- Right Column: Embedded video tutorial -->
-                <div class="col-md-6">
+                <div class="col-md-6 mt-4 mt-md-0">
                     <!-- Using Bootstrap 5's ratio class for a responsive video -->
                     <div class="ratio ratio-16x9">
                         <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Video Tutorial" allowfullscreen>
@@ -79,7 +81,7 @@
             </div>
         </div>
         <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
+        <div class="scroll-indicator mt-4">
             <a href="#dashboard"><i class="bi bi-chevron-down"></i></a>
         </div>
     </div>
@@ -121,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3 mt-md-0">
                 <div class="card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <div id="profitCard" class="card-bold-text display-1">21%</div>
@@ -167,7 +169,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3 mt-md-0">
                 <div class="card">
                     <canvas id="varianceCtx"></canvas>
                     <div class="card-body">
@@ -217,7 +219,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3 mt-md-0">
                 <div class="card">
                     <canvas id="laborProfitCtx"></canvas>
                     <div class="card-body">

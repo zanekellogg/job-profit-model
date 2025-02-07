@@ -169,7 +169,7 @@ body {
  .scroll-indicator {
      position: absolute;
      bottom: 20px;
-     left: 50%;
+     left: 51.5%;
      transform: translateX(-50%);
      cursor: pointer;
      z-index: 2;
@@ -180,8 +180,7 @@ body {
      /* color: #fff; */
      color:rgb(23, 253, 164);
      animation: bounce 2s infinite;
-     display: inline-block;
-     /* display: block; */
+     display: block;
  }
 
  @keyframes bounce {
@@ -195,3 +194,10 @@ body {
          transform: translateX(-50%) translateY(5px);
      }
  }
+
+ /* Adjust the bottom position on small screens */
+@media (max-width: 576px) {
+    .scroll-indicator {
+        bottom: -10px; /* Set the bottom spacing on phone screens */
+    }
+}
