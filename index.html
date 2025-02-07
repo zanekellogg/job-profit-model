@@ -1,258 +1,345 @@
 <html>
-    <head>
-        <title>Blue Data Works // Business Leaders Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" media="(prefers-color-scheme: light)" href="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/64cc8af2-2f48-4ca3-a179-4e8de2727902/favicon.ico?format=100w">
-        <link rel="icon" type="image/x-icon" media="(prefers-color-scheme: dark)" href="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/cd971ea3-78b1-429a-bf5d-15bdd68af4ce/favicon.ico?format=100w">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-        <link href="styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-custom py-4">
-            <div class="container">
-                <!-- Left side: Icon and Home text -->
-                <a class="navbar-brand" href="http://bluedataworks.com">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/222d9bae-21fc-4d8e-91a9-d0a8c5708c7e/Isolation_Mode.png?format=1500w"
-                        alt="Logo" class="d-inline-block align-text-top me-2" />
+
+<head>
+    <title>Blue Data Works // Business Leaders Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" media="(prefers-color-scheme: light)"
+        href="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/64cc8af2-2f48-4ca3-a179-4e8de2727902/favicon.ico?format=100w">
+    <link rel="icon" type="image/x-icon" media="(prefers-color-scheme: dark)"
+        href="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/cd971ea3-78b1-429a-bf5d-15bdd68af4ce/favicon.ico?format=100w">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-custom py-4">
+        <div class="container">
+            <!-- Left side: Icon and Home text -->
+            <a class="navbar-brand" href="http://bluedataworks.com">
+                <img src="https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/222d9bae-21fc-4d8e-91a9-d0a8c5708c7e/Isolation_Mode.png?format=1500w"
+                    alt="Logo" class="d-inline-block align-text-top me-2" />
+            </a>
+
+            <!-- Right side: Round button -->
+            <div class="justify-content-lg-end mt-4 mt-md-0">
+                <a class="btn btn-custom-white rounded-pill btn-lg"
+                    href="https://outlook.office365.com/book/BlueDataWorks@bluedataworks.com/s/iKYkFdEupEqii6_kIz13qw2">
+                    Put Your Data To Work
                 </a>
-        
-                <!-- Right side: Round button -->
-                <div class="justify-content-lg-end mt-4 mt-md-0">
-                    <a class="btn btn-custom-white rounded-pill btn-lg"
-                        href="https://outlook.office365.com/book/BlueDataWorks@bluedataworks.com/s/iKYkFdEupEqii6_kIz13qw2">
-                        Put Your Data To Work
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Hero Section -->
+    <div class="container-fluid hero-section">
+        <!-- Optional overlay for better contrast -->
+        <div class="hero-overlay"></div>
+        <!-- Hero content container -->
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <!-- Left Column: Title and description -->
+                <div class="col-md-6">
+                    <h1 class="display-3">
+                        Owner's Dashboard by Blue Data Works
+                    </h1>
+                    <p class="lead">
+                        For project-based businesses, tracking profitability over time is crucial. This dashboard provides 
+                        a visual breakdown of profit and margins, showing trends and comparisons to estimates. It factors 
+                        in job size and labor costs, offering deeper insights into profitability. Use this data to refine 
+                        pricing, improve forecasting, and drive growth.
+                    </p>
+                    <p class="lead">
+                        Explore the dashboard, watch the walkthrough, or try it with your own data!
+                        <br />
+                        <a class="btn btn-custom-white rounded-pill btn-lg mt-2"
+                            href="#">
+                            Upload Your Data
+                        </a>
+                    </p>
+                </div>
+                <!-- Right Column: Embedded video tutorial -->
+                <div class="col-md-6">
+                    <!-- Using Bootstrap 5's ratio class for a responsive video -->
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Video Tutorial" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <a href="#dashboard"><i class="bi bi-chevron-down"></i></a>
+        </div>
+    </div>
+    <!-- End Hero -->
+
+    <!-- Old Hero / Header -->
+    <div class="container my-4 text-center d-none">
+        <!-- Normal text line -->
+        <h4 class="my-3">// Data Analytics and Visualization</h4>
+        <!-- Large heading with highlighted text -->
+        <h1 class="mt-4" style="color: rgb(0, 40, 85);">
+            Discover Blue Data Works with an <span class="highlight">Owner's Dashboard</span>
+        </h1>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-7 ">
+                <p>
+                    <strong>Understanding Profit: Why It Matters</strong><br />
+                    For small businesses that operate by jobs or projects, tracking profitability
+                    over time is key to long-term success. This dashboard provides a clear, visual
+                    breakdown of profit and profit margins, helping you see how they trend over
+                    time and how they compare to estimates. It also considers job size by factoring
+                    in labor amounts, giving you deeper insights into how different types of jobs
+                    impact your bottom line. With this information, you can refine pricing
+                    strategies, improve forecasting, and make data-driven decisions to grow your
+                    business.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard" class="container mt-4">
+        <!-- Profit Charts -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <canvas id="profitCtx"></canvas>
+                    <div class="card-body">
+                        <p class="card-subtext">Profit % and Profit Over Time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <div id="profitCard" class="card-bold-text display-1">21%</div>
+                        <div class="card-subtext">Average Profit Percent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row for description box-->
+        <div class="row">
+            <div class="col-12">
+                <div class="description-box">
+                    <!-- Clickable header (h5) to toggle the collapse -->
+                    <h5 class="description-box-title clickable-header" data-bs-toggle="collapse"
+                        data-bs-target="#profitContent" aria-expanded="false" aria-controls="profitContent">
+                        // Profit & Margins Over Time: Identifying Trends and Performance
+                        <i id="profitChevron" class="bi bi-chevron-down rotate collapsed"></i>
+                    </h5>
+                    <!-- Collapsible content -->
+                    <div class="collapse row justify-content-center mt-4" id="profitContent">
+                        <div class="col-md-9 text-start">
+                            <p>
+                                The first graph displays total <strong>profit percentage and profit over time</strong>,
+                                highlighting trends in profitability. The second card presents
+                                the <strong>average profit percentage</strong>, providing a quick snapshot of overall
+                                performance. Together, these insights enable <strong>trend analysis, comparison of
+                                    results to expectations</strong>, and make more informed business decisions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Profit Charts -->
+
+        <!-- Variance Charts -->
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <div id="varianceCard" class="card-bold-text display-1">21%</div>
+                        <div class="card-subtext">Average Estimate vs Actual</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <canvas id="varianceCtx"></canvas>
+                    <div class="card-body">
+                        <p class="card-subtext">Estimate vs Actual Over Time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row for description box-->
+        <div class="row">
+            <div class="col-12">
+                <div class="description-box">
+                    <!-- Clickable header (h5) to toggle the collapse -->
+                    <h5 class="description-box-title clickable-header" data-bs-toggle="collapse"
+                        data-bs-target="#varianceContent" aria-expanded="false" aria-controls="varianceContent">
+                        // Estimate vs. Actual: Measuring Variance and Accuracy
+                        <i id="varianceChevron" class="bi bi-chevron-down rotate collapsed"></i>
+                    </h5>
+                    <!-- Collapsible content -->
+                    <div class="collapse row justify-content-center mt-4" id="varianceContent">
+                        <div class="col-md-9 text-start">
+                            <p>
+                                The first metric shows the total difference in value between estimated
+                                and actual revenue, known as <strong>variance</strong>, providing a quick
+                                view of how well projections align with reality.
+                            </p>
+                            <p>
+                                The second graph tracks <strong>monthly variance over time</strong>, illustrating
+                                fluctuations between estimated and actual profits. The closer the
+                                values are to <strong>zero</strong>, the more accurate the estimates, aiding
+                                in refining forecasting and improving financial planning.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Profit Charts -->
+
+        <!-- Labor Charts -->
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card">
+                    <canvas id="laborCtx"></canvas>
+                    <div class="card-body">
+                        <p class="card-subtext">Profit % By Labor Over Time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <canvas id="laborProfitCtx"></canvas>
+                    <div class="card-body">
+                        <p class="card-subtext">Profit By Labor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row for description box-->
+        <div class="row mt-1">
+            <div class="col-12">
+                <div class="description-box">
+                    <!-- Clickable header (h5) to toggle the collapse -->
+                    <h5 class="description-box-title clickable-header" data-bs-toggle="collapse"
+                        data-bs-target="#laborContent" aria-expanded="false" aria-controls="laborContent">
+                        // Profit by Project Size: Tracking Trends and Total Impact
+                        <i id="laborChevron" class="bi bi-chevron-down rotate collapsed"></i>
+                    </h5>
+                    <!-- Collapsible content -->
+                    <div class="collapse row justify-content-center mt-4" id="laborContent">
+                        <div class="col-md-9 text-start">
+                            <p>
+                                Projects are grouped into <strong>small, medium, and large</strong> based on labor
+                                costs, allowing
+                                for a clearer analysis of profitability by project size.
+                            </p>
+                            <p>
+                                The first graph tracks <strong>average profit percentage</strong> by group over time,
+                                revealing
+                                trends in profitability across different project sizes. The second graph, a pie chart,
+                                displays <strong>total profit by group</strong>, highlighting which project size
+                                contributes the
+                                most to overall profitability.
+                            </p>
+                            <p>
+                                By analyzing these trends, businesses can <strong>identify the most profitable project
+                                    sizes and
+                                    adjust strategies to maximize returns</strong>.
+                            </p>
+                            <p>
+                                <strong>Project Grouping Ranges:</strong>
+                            <ul>
+                                <li><strong>Small Projects: </strong>Labor cost under <span
+                                        id="smallLaborRange">$X</span></li>
+                                <li><strong>Medium Projects: </strong>Labor cost between <span
+                                        id="mediumLaborRange">$X-$Y</span></li>
+                                <li><strong>Large Projects: </strong>Labor cost above <span
+                                        id="largeLaborRange">$X</span></li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Profit Charts -->
+
+        <!-- Footer -->
+        <!-- <div class="row mt-3 justify-content-center align-items-center rounded-3 bg-success"> -->
+        <div class="row mt-3 mb-5">
+            <div class="col-12 bg-image rounded-3">
+                <!-- Flex container to center content both vertically and horizontally -->
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <strong class="display-5">I'm ready! Let's do this.</strong>
+                    <p>Book a 30-minute consultation to discuss your data challenges and see how we can help.</p>
+                    <a class="btn btn-custom-blue rounded-pill btn-lg" href="https://outlook.office365.com/book/BlueDataWorks@bluedataworks.com/s/iKYkFdEupEqii6_kIz13qw2">
+                        Schedule My Consultation
                     </a>
                 </div>
             </div>
-        </nav>
-        <!-- End Navbar -->
-        
-        <div class="container my-4 text-center">
-            <!-- Normal text line -->
-            <h4 class="my-3">// Data Analytics and Visualization</h4>
-            <!-- Large heading with highlighted text -->
-            <h1 class="mt-4" style="color: rgb(0, 40, 85);">
-                Discover Blue Data Works with an <span class="highlight">Owner's Dashboard</span>
-            </h1>
-            <div class="row justify-content-center mt-4">
-                <div class="col-md-7 ">
-                    <p>
-                        <strong>Understanding Profit: Why It Matters</strong><br />
-                        For small businesses that operate by jobs or projects, tracking profitability 
-                        over time is key to long-term success. This dashboard provides a clear, visual 
-                        breakdown of profit and profit margins, helping you see how they trend over 
-                        time and how they compare to estimates. It also considers job size by factoring 
-                        in labor amounts, giving you deeper insights into how different types of jobs 
-                        impact your bottom line. With this information, you can refine pricing 
-                        strategies, improve forecasting, and make data-driven decisions to grow your 
-                        business.
-                    </p>
-                </div>
-            </div>
         </div>
-
-        <div class="container">
-            <!-- Profit Charts -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <canvas id="profitCtx"></canvas>
-                        <div class="card-body">
-                            <p class="card-subtext">Profit % and Profit Over Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <div id="profitCard" class="card-bold-text display-1">21%</div>
-                            <div class="card-subtext">Average Profit Percent</div>
-                        </div>
-                    </div>
+        <!-- <div id="footer" class="row pt-4 p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border">
+            <div class="col-lg-12 p-3 p-lg-5 pt-lg-3">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Border hero with cropped image and shadows</h1>
+                <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+                    most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid
+                    system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
                 </div>
             </div>
-            <!-- Row for description box-->
-            <div class="row">
-                <div class="col-12">
-                    <div class="description-box">
-                        <!-- Clickable header (h5) to toggle the collapse -->
-                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#profitContent"
-                            aria-expanded="false" aria-controls="profitContent">
-                            // Profit & Margins Over Time: Identifying Trends and Performance
-                            <i id="profitChevron" class="bi bi-chevron-down rotate collapsed"></i>
-                        </h5>
-                        <!-- Collapsible content -->
-                        <div class="collapse row justify-content-center mt-4" id="profitContent">
-                            <div class="col-md-9 text-start">
-                                <p>
-                                    The first graph displays total <strong>profit percentage and profit over time</strong>,
-                                    highlighting trends in profitability. The second card presents
-                                    the <strong>average profit percentage</strong>, providing a quick snapshot of overall
-                                    performance. Together, these insights enable <strong>trend analysis, comparison of 
-                                    results to expectations</strong>, and make more informed business decisions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Profit Charts -->
+        </div> -->
+        <!-- End Footer -->
+    </div>
 
-            <!-- Variance Charts -->
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <div id="varianceCard" class="card-bold-text display-1">21%</div>
-                            <div class="card-subtext">Average Estimate vs Actual</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <canvas id="varianceCtx"></canvas>
-                        <div class="card-body">
-                            <p class="card-subtext">Estimate vs Actual Over Time</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Row for description box-->
-            <div class="row">
-                <div class="col-12">
-                    <div class="description-box">
-                        <!-- Clickable header (h5) to toggle the collapse -->
-                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#varianceContent"
-                            aria-expanded="false" aria-controls="varianceContent">
-                            // Estimate vs. Actual: Measuring Variance and Accuracy
-                            <i id="varianceChevron" class="bi bi-chevron-down rotate collapsed"></i>
-                        </h5>
-                        <!-- Collapsible content -->
-                        <div class="collapse row justify-content-center mt-4" id="varianceContent">
-                            <div class="col-md-9 text-start">
-                                <p>
-                                    The first metric shows the total difference in value between estimated 
-                                    and actual revenue, known as <strong>variance</strong>, providing a quick 
-                                    view of how well projections align with reality.
-                                </p>
-                                <p>
-                                    The second graph tracks <strong>monthly variance over time</strong>, illustrating 
-                                    fluctuations between estimated and actual profits. The closer the 
-                                    values are to <strong>zero</strong>, the more accurate the estimates, aiding 
-                                    in refining forecasting and improving financial planning.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Profit Charts -->
+    <div class="container d-none">
+        <input type="file" id="file" title="File Input" accept=".csv" />
+    </div>
 
-            <!-- Labor Charts -->
-            <div class="row mt-3"> 
-                <div class="col-md-6">
-                    <div class="card">
-                        <canvas id="laborCtx"></canvas>
-                        <div class="card-body">
-                            <p class="card-subtext">Profit % By Labor Over Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <canvas id="laborProfitCtx"></canvas>
-                        <div class="card-body">
-                            <p class="card-subtext">Profit By Labor</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Row for description box-->
-            <div class="row mt-1">
-                <div class="col-12">
-                    <div class="description-box">
-                        <!-- Clickable header (h5) to toggle the collapse -->
-                        <h5 class="description-box-title clickable-header" data-bs-toggle="collapse" data-bs-target="#laborContent"
-                            aria-expanded="false" aria-controls="laborContent">
-                            // Profit by Project Size: Tracking Trends and Total Impact
-                            <i id="laborChevron" class="bi bi-chevron-down rotate collapsed"></i>
-                        </h5>
-                        <!-- Collapsible content -->
-                        <div class="collapse row justify-content-center mt-4" id="laborContent">
-                            <div class="col-md-9 text-start">
-                                <p>
-                                    Projects are grouped into <strong>small, medium, and large</strong> based on labor costs, allowing 
-                                    for a clearer analysis of profitability by project size.                                    
-                                </p>
-                                <p>
-                                    The first graph tracks <strong>average profit percentage</strong> by group over time, revealing 
-                                    trends in profitability across different project sizes. The second graph, a pie chart, 
-                                    displays <strong>total profit by group</strong>, highlighting which project size contributes the 
-                                    most to overall profitability.
-                                </p>
-                                <p>
-                                    By analyzing these trends, businesses can <strong>identify the most profitable project sizes and 
-                                    adjust strategies to maximize returns</strong>.
-                                </p>
-                                <p>
-                                    <strong>Project Grouping Ranges:</strong>
-                                    <ul>
-                                        <li><strong>Small Projects: </strong>Labor cost under <span id="smallLaborRange">$X</span></li>
-                                        <li><strong>Medium Projects: </strong>Labor cost between <span id="mediumLaborRange">$X-$Y</span></li>
-                                        <li><strong>Large Projects: </strong>Labor cost above <span id="largeLaborRange">$X</span></li>
-                                    </ul>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Profit Charts -->
-            
-        </div>
+    <pre id="output" hidden="true"></pre>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="dist/bundle.js"></script>
+    <script>
+        launch();
+    </script>
+    <script>
+        const profitContent = document.getElementById('profitContent');
+        profitContent.addEventListener('show.bs.collapse', function () {
+            document.querySelector('#profitChevron.rotate').classList.remove('collapsed');
+        });
+        profitContent.addEventListener('hide.bs.collapse', function () {
+            document.querySelector('#profitChevron.rotate').classList.add('collapsed');
+        });
 
-        <div class="container d-none">
-            <input type="file" id="file" title="File Input" accept=".csv" />
-        </div>
+        const varianceContent = document.getElementById('varianceContent');
+        varianceContent.addEventListener('show.bs.collapse', function () {
+            document.querySelector('#varianceChevron.rotate').classList.remove('collapsed');
+        });
+        varianceContent.addEventListener('hide.bs.collapse', function () {
+            document.querySelector('#varianceChevron.rotate').classList.add('collapsed');
+        });
 
-        <pre id="output" hidden="true"></pre>   
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="dist/bundle.js"></script>
-        <script>
-            launch();
-        </script>
-        <script>
-            const profitContent = document.getElementById('profitContent');
-            profitContent.addEventListener('show.bs.collapse', function () {
-                document.querySelector('#profitChevron.rotate').classList.remove('collapsed');
-            });
-            profitContent.addEventListener('hide.bs.collapse', function () {
-                document.querySelector('#profitChevron.rotate').classList.add('collapsed');
-            });
-
-            const varianceContent = document.getElementById('varianceContent');
-            varianceContent.addEventListener('show.bs.collapse', function () {
-                document.querySelector('#varianceChevron.rotate').classList.remove('collapsed');
-            });
-            varianceContent.addEventListener('hide.bs.collapse', function () {
-                document.querySelector('#varianceChevron.rotate').classList.add('collapsed');
-            });
-
-            const laborContent = document.getElementById('laborContent');
-            laborContent.addEventListener('show.bs.collapse', function () {
-                document.querySelector('#laborChevron.rotate').classList.remove('collapsed');
-            });
-            laborContent.addEventListener('hide.bs.collapse', function () {
-                document.querySelector('#laborChevron.rotate').classList.add('collapsed');
-            });
-        </script>
-    </body>
+        const laborContent = document.getElementById('laborContent');
+        laborContent.addEventListener('show.bs.collapse', function () {
+            document.querySelector('#laborChevron.rotate').classList.remove('collapsed');
+        });
+        laborContent.addEventListener('hide.bs.collapse', function () {
+            document.querySelector('#laborChevron.rotate').classList.add('collapsed');
+        });
+    </script>
+</body>
 </html>

@@ -74,6 +74,14 @@
     padding: 15px 20px;
 }
 
+.btn-custom-blue {
+    background-color: rgb(0, 40, 85);
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 1.0rem;
+    padding: 15px 20px;
+}
+
 /* Optional: Hover state for better user feedback */
 .btn-custom-white:hover {
     background-color: rgb(204, 212, 221);
@@ -120,3 +128,70 @@ body {
 .rotate:not(.collapsed) {
     transform: rotate(180deg);
 }
+
+.bg-image {
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/31e16864-a30f-4318-8e78-789fedbd7778/Rectangle+8+%283%29.png?format=2500w');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    color: rgb(0, 40, 85);
+}
+
+ /* Hero section styles */
+ .hero-section {
+     background: url('https://images.squarespace-cdn.com/content/v1/6480cd2ebc182a03063f9a25/f2e5e604-b73f-4e79-9b5c-dbbc84addc6a/shutterstock_2430079323.jpg?format=2500w') no-repeat center center;
+     background-size: cover;
+     min-height: 300px;
+     /* Adjust height as needed */
+     position: relative;
+     color: #fff;
+     /* Default text color */
+ }
+
+ /* Optional overlay to improve text contrast */
+ .hero-overlay {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 40, 85, 0.85);
+ }
+
+ /* Position hero content above the overlay */
+ .hero-content {
+     position: relative;
+     z-index: 2;
+     padding: 2rem;
+ }
+
+ /* Scroll Indicator Styles */
+ .scroll-indicator {
+     position: absolute;
+     bottom: 20px;
+     left: 50%;
+     transform: translateX(-50%);
+     cursor: pointer;
+     z-index: 2;
+ }
+
+ .scroll-indicator i {
+     font-size: 2.5rem;
+     /* color: #fff; */
+     color:rgb(23, 253, 164);
+     animation: bounce 2s infinite;
+     display: inline-block;
+     /* display: block; */
+ }
+
+ @keyframes bounce {
+     0%, 20%, 50%, 80%, 100% {
+         transform: translateX(-50%) translateY(0);
+     }
+     40% {
+         transform: translateX(-50%) translateY(10px);
+     }
+     60% {
+         transform: translateX(-50%) translateY(5px);
+     }
+ }
