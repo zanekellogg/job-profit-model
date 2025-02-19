@@ -521,6 +521,11 @@ var App = (() => {
   var { switchMap, map, tap } = rxjs.operators;
   var fileInput = document.getElementById("file");
   var output = document.getElementById("output");
+  var modal = document.getElementById("csvInstructionsModal");
+  var modalInstance = bootstrap.Modal.getInstance(modal);
+  if (!modalInstance) {
+    modalInstance = new bootstrap.Modal(modal);
+  }
   var fileInputChange$ = fromEvent(fileInput, "change");
   function launch() {
     initEventStreams();
@@ -557,6 +562,7 @@ var App = (() => {
     ).subscribe({
       next: (transformedData) => {
         showData(transformedData);
+        modalInstance.hide();
       },
       error: (err) => console.error("Error Processing File: ", err),
       complete: () => console.log("Processing File Complete")

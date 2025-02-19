@@ -8,6 +8,13 @@ const { switchMap, map, tap } = rxjs.operators;
 // Init elements
 const fileInput = document.getElementById("file");
 const output = document.getElementById('output');
+const modal = document.getElementById('csvInstructionsModal');
+
+// Get the Bootstrap modal instance. If it doesn't exist yet, create a new instance.
+let modalInstance = bootstrap.Modal.getInstance(modal);
+if (!modalInstance) {
+    modalInstance = new bootstrap.Modal(modal);
+}
 
 // Init event streams
 const fileInputChange$ = fromEvent(fileInput, 'change');
@@ -57,6 +64,9 @@ function initEventStreams()
     ).subscribe({
         next: transformedData => {
             showData(transformedData);
+            
+            // Hide the modal
+            modalInstance.hide();
         },
         error: err => console.error("Error Processing File: ", err),
         complete: () => console.log("Processing File Complete")
